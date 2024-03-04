@@ -1,2 +1,0 @@
-import{b as f}from"./chunk-5D3K6GYC.js";import{a as i}from"./chunk-JRESDEDW.js";import{f as o}from"./chunk-62VJZGPO.js";var e=o(i());f();function d(){(0,e.default)(document).ready(function(){var n=(0,e.default)("body");n.undelegate("form","submit"),n.delegate("form","submit",function(){var t=(0,e.default)(this);t.find("input[name='csrfToken']").length===0&&t.append('<input type="hidden" name="csrfToken" value='+hs.csrfToken+">")})})}export{d as a};
-//# sourceMappingURL=chunk-I7ZURWGP.js.map

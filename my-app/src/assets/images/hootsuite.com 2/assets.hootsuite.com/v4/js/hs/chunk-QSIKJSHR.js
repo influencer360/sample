@@ -1,2 +1,0 @@
-import{c as a}from"./chunk-62VJZGPO.js";var b=a((l,u)=>{"use strict";function s(e){if(e==null)throw new TypeError("Object.assign cannot be called with null or undefined");return Object(e)}u.exports=Object.assign||function(e,f){for(var n,r,c=s(e),o=1;o<arguments.length;o++){n=arguments[o],r=Object.keys(Object(n));for(var t=0;t<r.length;t++)c[r[t]]=n[r[t]]}return c}});export{b as a};
-//# sourceMappingURL=chunk-QSIKJSHR.js.map
