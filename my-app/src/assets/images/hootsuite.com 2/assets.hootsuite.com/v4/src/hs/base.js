@@ -1,0 +1,18 @@
+import initFormToken from 'utils/form-token';
+import '3rd/jquery-ui';
+import 'utils/ajax';
+import 'utils/button_manager';
+import 'utils/cookie';
+import 'utils/dialogfactory';
+import 'utils/error';
+import 'utils/hs_ejs';
+import 'utils/recaptcha';
+import 'utils/status_bar';
+import 'utils/tracker-google-analytics';
+import 'utils/translation';
+import 'utils/util';
+import 'utils/util_static';
+import 'hs-events';
+import backbone from 'backbone';
+window.Backbone = backbone;
+initFormToken();

@@ -1,0 +1,56 @@
+module.exports = { render: function(data) {
+var __t, __p = '', __j = Array.prototype.join;
+function print() { __p += __j.call(arguments, '') }
+
+
+  data.socialNetworks.forEach(function (sn) {
+    var snId = sn.socialNetworkId;
+    var rowIsDisabled = Boolean(data.disabledSnTypes && _.indexOf(data.disabledSnTypes, sn.type) > -1);
+;
+__p += '\n  <div class="listItem _row';
+ if (rowIsDisabled) { ;
+__p += ' rowDisabled';
+ } ;
+__p += '" itemid="' +
+((__t = ( snId )) == null ? '' : __t) +
+'" type="' +
+((__t = ( sn.type )) == null ? '' : __t) +
+'">\n    <div class="controls">\n      <button class="_action _fav _jsTooltip icon-19 fave ';
+ if (hs.favoritedSns.join(',').indexOf(snId) > -1) { ;
+__p += 'on';
+ } ;
+__p += '" data-tooltip-selected="' +
+((__t = ( translation._("Unfavorite") )) == null ? '' : __t) +
+'" data-tooltip-default="' +
+((__t = ( translation._("Move to top") )) == null ? '' : __t) +
+'" title="' +
+((__t = ( translation._("Move to top") )) == null ? '' : __t) +
+'"></button>\n      <button class="_action _pin ';
+ if (data.publisherFilterPin) { ;
+__p += '_sched';
+ } ;
+__p += ' _jsTooltip icon-19 pin ';
+ if ((data.publisherFilterPin && (hs.publisherFilterSns.join(',').indexOf(snId) > -1)) || (!data.publisherFilterPin && hs.pinnedSns.join(',').indexOf(snId) > -1)) { ;
+__p += 'on';
+ } ;
+__p += '" data-tooltip-selected="' +
+((__t = ( translation._("Unpin") )) == null ? '' : __t) +
+'" data-tooltip-default="' +
+((__t = ( translation._("Always select") )) == null ? '' : __t) +
+'" title="' +
+((__t = ( translation._("Always select") )) == null ? '' : __t) +
+'"></button>\n    </div>\n    <div class="details fs-exclude-container" title="' +
+((__t = ( hsEjs.cleanPage(sn.username) )) == null ? '' : __t) +
+'">\n      <img class="avatar" src="" data-avatar="' +
+((__t = ( sn.avatar )) == null ? '' : __t) +
+'" onerror="hs.replaceAvatarWithDefault(this)"/>\n      <strong>' +
+((__t = ( hsEjs.cleanPage(sn.username) )) == null ? '' : __t) +
+'</strong><span class="icon-sn-13 ' +
+((__t = ( sn.type.toLowerCase() )) == null ? '' : __t) +
+'"></span>\n    </div>\n    <span class="icon-static-19 checkmark"></span>\n  </div>\n';
+
+  });
+;
+__p += '\n';
+return __p
+} };

@@ -1,0 +1,16 @@
+var content = require("!!../../../../node_modules/css-loader/dist/cjs.js!../../../../node_modules/less-loader/dist/cjs.js??ruleSet[1].rules[1].use[2]!./custom-approval-preview-modal.less");
+
+if (typeof content === 'string') {
+  content = [[module.id, content, '']];
+}
+
+var options = {"injectType":"singletonStyleTag"}
+
+options.insert = "head";
+options.singleton = true;
+
+var update = require("!../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js")(content, options);
+
+if (content.locals) {
+  module.exports = content.locals;
+}

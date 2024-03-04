@@ -1,0 +1,16 @@
+"use strict";
+const flux = require('hs-nest/lib/stores/flux');
+const { TAGS, TAG_HEADER, SIDE_PANEL_TAG_MANAGER } = require('../actions/types');
+const TagsStore = require('./tags');
+const TagHeaderStore = require('./header');
+const TagSidePanelStore = require('./side-panel');
+const TagsActions = require('../actions/tags');
+const TagHeaderActions = require('../actions/header');
+const TagSidePanelActions = require('../actions/side-panel');
+flux.createActions(TAGS, TagsActions, flux);
+flux.createStore(TAGS, TagsStore, flux);
+flux.createActions(TAG_HEADER, TagHeaderActions, flux);
+flux.createStore(TAG_HEADER, TagHeaderStore, flux);
+flux.createActions(SIDE_PANEL_TAG_MANAGER, TagSidePanelActions, flux);
+flux.createStore(SIDE_PANEL_TAG_MANAGER, TagSidePanelStore, flux);
+module.exports = flux;

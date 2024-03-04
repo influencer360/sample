@@ -1,0 +1,125 @@
+module.exports = { render: function(data) {
+var __t, __p = '', __j = Array.prototype.join;
+function print() { __p += __j.call(arguments, '') }
+__p += '<div class="menu-dropdown" role="listbox">\n  ';
+ if (data.items.length === 0) { ;
+__p += '\n    <div class="row _noresults">' +
+((__t = ( translation._("No results") )) == null ? '' : __t) +
+'</div>\n  ';
+ } else { ;
+__p += '\n    ';
+ if (typeof data.withSearch !== "undefined" && data.withSearch) { ;
+__p += '\n      <div class="search-box"><input type="text" value="" class="_dropdownSearch dropdown-search"/></div>\n    ';
+ } ;
+__p += '\n    <div class="_scroll-list scroll-list">\n      ';
+ _.each(data.items, function(item, index){
+        if (item.divider) {
+        ;
+__p += '\n          <hr/>\n          ';
+
+          if (typeof item.divider === 'string') {
+          ;
+__p += '\n          <h4>' +
+((__t = ( item.divider )) == null ? '' : __t) +
+'</h4>\n          ';
+
+          }
+        } else {
+          var isSelClass = (item.selected) ? ' selected' : '',
+            hasTooltipTitle = item.tooltip && item.tooltip.title,
+            hasTooltipContent = item.tooltip && item.tooltip.content;
+        ;
+__p += '\n          <div class="row _row ';
+ if (item.dd.img) { ;
+__p += 'rowAvatar';
+ } ;
+__p += ' ' +
+((__t = ( isSelClass )) == null ? '' : __t);
+ if (hasTooltipContent) { ;
+__p += ' _hsTooltip';
+ } ;
+__p += '" role="option" tabindex="-1" data-index="' +
+((__t = ( index )) == null ? '' : __t) +
+'"';
+ if (hasTooltipTitle) { ;
+__p += ' data-tooltiptitle="' +
+((__t = ( item.tooltip.title )) == null ? '' : __t) +
+'" ';
+  } ;
+__p += ' ';
+ if (hasTooltipContent) { ;
+__p += ' data-tooltipcontent="' +
+((__t = ( item.tooltip.content )) == null ? '' : __t) +
+'" ';
+  } ;
+__p += '>\n            <div class="details">\n              ';
+ if (typeof data.withSelected !== "undefined" && data.withSelected) { ;
+__p += '\n                ';
+ if (isSelClass) { ;
+__p += '\n                  <span class="icon-19 checkmark _toggle"></span>\n                ';
+ } else { ;
+__p += '\n                  <span class="icon-19 blank _toggle"></span>\n                ';
+ } ;
+__p += '\n              ';
+ } ;
+__p += '\n              ';
+ if (item.icon) { ;
+__p += '\n                <span class="' +
+((__t = ( item.icon )) == null ? '' : __t) +
+'"></span>\n              ';
+ } ;
+__p += '\n              ';
+ if (item.dd.img) { ;
+__p += '\n                ';
+ if (data.withLazyLoading) { ;
+__p += '\n                  <img class="avatar" src="" data-avatar="' +
+((__t = ( hs.util.proxify(item.dd.img) )) == null ? '' : __t) +
+'" alt="" />\n                ';
+ } else { ;
+__p += '\n                  <img class="avatar" src="' +
+((__t = ( item.dd.img )) == null ? '' : __t) +
+'" alt="" />\n                ';
+ } ;
+__p += '\n              ';
+ } ;
+__p += '\n              <span class="title">' +
+((__t = ( hsEjs.cleanPage(item.dd.title) )) == null ? '' : __t) +
+'</span>\n              ';
+ if (item.dd.text) { ;
+__p += '\n                <em class="t-ls subtext">' +
+((__t = ( hsEjs.cleanPage(item.dd.text) )) == null ? '' : __t) +
+'</em>\n              ';
+ } ;
+__p += '\n            </div>\n          </div>\n        ';
+
+        }
+      }); ;
+__p += '\n    </div>\n  ';
+ } ;
+__p += '\n  ';
+ if (typeof data.addNewMember !== "undefined" && data.addNewMember) { ;
+__p += '\n    <div class="footer">\n      <button class="_addNewMember btn-lite-sta btn-sml">+ ' +
+((__t = ( translation._("Add new Member") )) == null ? '' : __t) +
+'</button>\n    </div>\n  ';
+ } ;
+__p += '\n  ';
+ if (typeof data.addNewTeam !== "undefined" && data.addNewTeam) { ;
+__p += '\n    <div class="footer">\n      <button class="_addNewTeam btn-lite-sta btn-sml">+ ' +
+((__t = ( translation._("Create new Team") )) == null ? '' : __t) +
+'</button>\n    </div>\n  ';
+ } ;
+__p += '\n  ';
+ if (typeof data.addNewSocialNetwork !== "undefined" && data.addNewSocialNetwork) { ;
+__p += '\n    <div class="footer">\n      <button class="_addNewSocialNetwork btn-lite-sta btn-sml">+ ' +
+((__t = ( translation._("Add new Social Network") )) == null ? '' : __t) +
+'</button>\n    </div>\n  ';
+ } ;
+__p += '\n  ';
+ if (typeof data.dropdownAd !== "undefined" ) { ;
+__p += '\n    ' +
+((__t = ( data.dropdownAd )) == null ? '' : __t) +
+'\n  ';
+ } ;
+__p += '\n</div>\n';
+return __p
+} };

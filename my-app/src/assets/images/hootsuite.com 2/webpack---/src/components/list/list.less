@@ -1,0 +1,50 @@
+@import (reference) '~hs-nest/styles/utils/utils';
+
+@colourDefaultBorder:  #d3d3d3;
+
+.rc-TagList {
+  #tag-list-aria-description {
+    display: none;
+  }
+
+  #tag-list-a11y-alert {
+    height: 0;
+    overflow: hidden;
+  }
+
+  .list-container {
+    .loading-container {
+      border: solid 1px @colourDefaultBorder;
+      background-color: @colourWhite;
+      cursor: pointer;
+      display: list-item;
+      list-style-type: none;
+      list-style-position: inside;
+      padding: @spacingSmallStandard @spacingSmallRoomy;
+      text-align: center;
+      .mixin-clearfix();
+
+      .rc-ThrobbingLoader {
+        height: 12px;
+        width: 26px;
+
+        > div {
+          background-color: @colourCoreText;
+        }
+      }
+    }
+  }
+
+  .list-search-container {
+    margin-bottom:50px;
+  }
+
+  .empty-search-result-container {
+    text-align: center;
+    .title {
+      font-size: large;
+      font-weight: bold;
+      margin-bottom: 7px;
+    }
+  }
+}
