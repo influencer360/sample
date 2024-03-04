@@ -1,0 +1,66 @@
+@import (reference) '~hs-nest/styles/utils/utils';
+
+.rc-ListSearch {
+  position: relative;
+
+  .rc-TextInput {
+    margin-bottom: 0;
+    float: left;
+    width: 100%;
+
+    input {
+      width: 100%;
+      padding-left: 38px;
+
+      &::placeholder {
+        color: #241F21;
+      }
+    }
+  }
+
+  .rc-IconBase {
+    position: absolute;
+    left: 12px;
+    top: 1em;
+    color: @colourDisabledText;
+  }
+
+  .clear-search {
+    position: absolute;
+    border: none;
+    border-radius: 0;
+    width: 38px;
+    right: 0;
+  }
+
+  .clear-search:hover {
+    background: none;
+  }
+
+  .search-throbber {
+    right: 1em;
+    top: 1em;
+    position: absolute;
+    width: 28px;
+
+    .rc-ThrobbingLoader {
+      width: 28px;
+    }
+
+    .rc-ThrobbingLoader > div {
+      background-color: @colourDisabledText;
+    }
+
+  }
+
+  .clear-search {
+
+    .rc-IconBase {
+      position: relative;
+      float: none;
+      text-align: right;
+      top: auto;
+      left: auto;
+    }
+  }
+}

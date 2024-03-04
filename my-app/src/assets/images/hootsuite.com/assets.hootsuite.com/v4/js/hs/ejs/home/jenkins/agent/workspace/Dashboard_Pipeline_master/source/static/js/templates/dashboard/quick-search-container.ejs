@@ -1,0 +1,30 @@
+module.exports = { render: function(data) {
+var __t, __p = '', __j = Array.prototype.join;
+function print() { __p += __j.call(arguments, '') }
+__p += '<div class="ui-panel-pointer">\n</div>\n<div class="ui-panel-header _header">\n  <div class="actions">\n    <button class="_back btn-lite-sta btn-dark btn-icon-19" style="display:none">\n      <span class="icon-19 x-chevronLeft"></span>\n    </button>\n  </div>\n  <h2>' +
+((__t = ( translation._("Twitter quick search") )) == null ? '' : __t) +
+'</h2>\n  <div class="controls">\n    <button class="_close -panelClose">\n      <span class="icon-30 closeButton"></span>\n    </button>\n  </div>\n</div>\n<div class="conversationMessageBox">\n  <div class="messageSection collapsed">\n    <div class="messageBox _messageContainer">\n      <div class="_uiElementBox composerBox ui-input">\n        <button class="_searchTypeDropdown btn-icon">\n          <span class="_searchTypeIcon icon-sn-16 twitter"></span>\n          <span class="icon-13 less"></span>\n        </button>\n        <input type="text" class="_searchTerm _uiElementInput messageBoxMessage clean" maxlength="500">\n        <button class="_geosearch _jsTooltip icon-19 geo" title="' +
+((__t = ( translation._("Use your location to find local search results") )) == null ? '' : __t) +
+'"></button>\n      </div>\n    </div>\n  </div>\n</div>\n<div class="ui-panel-content">\n  <div class="twitterSearchWarning _twitterSearchWarning" style="display:none;">\n    <p>' +
+((__t = ( translation._("Due to recent changes at Twitter you will need a Twitter account to use search streams. Any existing search streams have been preserved and will refresh once a Twitter account has been authenticated.") )) == null ? '' : __t) +
+' <br><a href="http://help.hootsuite.com/entries/23489013-Update-Twitter-Search-Streams-now-require-a-Twitter-profile" target="new">' +
+((__t = ( translation._("Learn More") )) == null ? '' : __t) +
+'</a></p>\n    <button class="btn-lite-sta btn-icon _addSocialNetworkWarningBtn">\n      <span class="icon-sn-13 twitter"></span>\n      ' +
+((__t = ( translation._("Add Twitter Account") )) == null ? '' : __t) +
+'\n    </button>\n  </div>\n  <div class="_trends _section trends content">\n  </div>\n  <div class="_twitterResults _section stream content" style="display:none">\n  </div>\n  <div class="_twitterUserResults _section stream content" style="display:none">\n  </div>\n  <div class="_facebookResults _section stream content" style="display:none">\n  </div>\n  <div class="_instagramResults _section stream x-instagram content" style="display:none">\n  </div>\n  <span class="_messageOptions messageOptions" style="position:absolute; z-index:2; display:none;">\n    <button class=\'_jsTooltip _fav\' title=\'' +
+((__t = ( translation._("Like / Unlike") )) == null ? '' : __t) +
+'\'>\n      <span class=\'icon-19 notFavorite\'></span>\n    </button>\n    <button class=\'_jsTooltip _dm\' title=\'' +
+((__t = ( translation._("Direct Message") )) == null ? '' : __t) +
+'\'>\n      <span class=\'icon-19 directMessage\'></span>\n    </button>\n    <button class=\'_jsTooltip _reply\' title=\'' +
+((__t = ( translation._("Reply") )) == null ? '' : __t) +
+'\'>\n      <span class=\'icon-19 reply\'></span>\n    </button>\n    <button class=\'_jsTooltip _retweet\' title=\'' +
+((__t = ( translation._("Re-Tweet") )) == null ? '' : __t) +
+'\'>\n      <span class=\'icon-19 retweet\'></span>\n    </button>\n  </span>\n</div>\n<div class="ui-panel-footer">\n  <div class="controls">\n    ';
+ if (_.values(hs.socialNetworksKeyedByType['TWITTER']).length) { ;
+__p += '\n      <button class="btn-lite-sta btn-dark _save">' +
+((__t = ( translation._("Save as Stream") )) == null ? '' : __t) +
+'</button>\n    ';
+ } ;
+__p += '\n  </div>\n</div>\n';
+return __p
+} };

@@ -1,0 +1,49 @@
+@import (reference) '~hs-nest/styles/utils/utils';
+
+.rc-EmptyState {
+  left: 50%;
+  margin-left: -200px;
+  margin-top: -200px;
+  position: absolute;
+  top: 50%;
+  text-align: center;
+  width: 400px;
+
+  .pull-left {
+    float: left;
+  }
+
+  .pull-right {
+    float: right;
+  }
+
+  .icon-container {
+    margin: 30px 0;
+  }
+
+  strong {
+    color: @colourCoreText;
+    display: block;
+    font: @fontWeightBold @fontSizeCategoryHeading @fontPrimary;
+    margin: 0 0 @spacingTitle;
+  }
+
+  ul {
+    margin: 0 0 @spacingTitle;
+    padding: 0;
+  }
+
+  p,
+  ul li {
+    color: @colourCoreText;
+    display: block;
+    font: @fontWeightNormal @fontSizeBodyText @fontPrimary;
+    margin: 0 0 4px;
+
+    strong {
+      display: inline;
+      font-size: inherit;
+    }
+  }
+}
+

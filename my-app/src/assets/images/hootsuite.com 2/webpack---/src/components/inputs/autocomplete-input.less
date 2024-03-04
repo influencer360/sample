@@ -1,0 +1,78 @@
+@import (reference) 'hs-nest/styles/utils/utils';
+
+.rc-AutocompleteInput {
+  position: relative;
+  display: inline-block;
+  min-width: 300px;
+
+  .rc-TextInput {
+    margin-bottom: 0;
+
+    > input {
+      border-radius: 3px;
+      width: 100%;
+
+      &:focus {
+        border-bottom-color: @colourBackground;
+        border-radius: 3px 3px 0 0;
+      }
+    }
+  }
+
+  .rc-SimpleMenu {
+    position: absolute;
+    top: 43px;
+    left: 0;
+    border-top: 0;
+    padding: 0;
+    width: ~"calc(100% - 2px)";
+    max-width: none;
+    box-sizing: content-box;
+
+    &.x-placeAbove {
+      top: inherit;
+      bottom: 43px;
+      border-top: 1px solid @colourLineDivider;
+      border-bottom: 0;
+      box-shadow: 0 -1px -1px @shadowBlack;
+    }
+  }
+
+  .rc-MenuItem {
+    border-left: 0;
+    padding: 0 12px;
+
+    .-content {
+      width: 100%;
+
+      .-label,
+      .-subLabel {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+
+    &:hover:not(.x-selected) {
+      background-color: initial;
+    }
+
+    &.x-selected {
+      background-color: @colourBackgroundHighlight;
+      box-shadow: none;
+    }
+  }
+
+  .rc-SocialNetworkAvatar {
+    vertical-align: middle;
+    margin-right: 8px;
+
+    &.-avatar {
+      top: -1px;
+
+      + .-content {
+        width: 80%;
+      }
+    }
+  }
+}

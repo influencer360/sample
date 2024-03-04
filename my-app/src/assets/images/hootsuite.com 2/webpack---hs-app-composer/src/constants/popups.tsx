@@ -1,0 +1,10 @@
+const POPUPS = {
+  DRAFT_SHARED_WARNING: 'DRAFT_SHARED_WARNING',
+}
+
+const LOCALSTORAGE_POPUP_OBJECT = 'publisherPopupsSeen'
+
+export default {
+  POPUPS,
+  LOCALSTORAGE_POPUP_OBJECT,
+}

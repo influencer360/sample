@@ -1,0 +1,2 @@
+import{c as t}from"./chunk-62VJZGPO.js";var i=t(e=>{"use strict";Object.defineProperty(e,"__esModule",{value:!0});e.PRODUCTION="production";e.STAGING="staging";e.DEV="dev";e.env=function(){var n=u(),r=String(s().env||n.TARGET||n.NODE_ENV).toLowerCase();return r.includes("dev")?e.DEV:r.includes("stag")?e.STAGING:e.PRODUCTION};var s=function(){return typeof hs<"u"?hs:{}},u=function(){return typeof process<"u"&&process.env?process.env:{}}});export{i as a};
+//# sourceMappingURL=chunk-EAS5SCWN.js.map

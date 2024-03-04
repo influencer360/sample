@@ -1,0 +1,20 @@
+module.exports = { render: function(data) {
+var __t, __p = '', __j = Array.prototype.join;
+function print() { __p += __j.call(arguments, '') }
+
+ if (hs.isFeatureEnabled('NGE_18348_SHARE_SEARCH_STREAM_MIGRATION')) { ;
+__p += '\n  <div id="stream-migration-share-stream-popup"></div>\n';
+ } else { ;
+__p += '\n  <div class="ui-dialog-section">\n    <input type="hidden" class="_teamId"/>\n    <p>' +
+((__t = ( translation._("Choose a team to share this stream with") )) == null ? '' : __t) +
+'</p>\n    <div class="_teamSelectorWidgetBtn btn-dropdown">\n      <span class="_dropdownbtntext">' +
+((__t = ( translation._("Select a team") )) == null ? '' : __t) +
+'&hellip;</span><span class="icon-13 expanded"></span>\n    </div>\n  </div>\n  <div class="btns-right">\n    <a class="btn-del _cancel" data-tracking-origin="web.dashboard.streams.share_stream" data-tracking-action="cancel_share">' +
+((__t = ( translation._("Cancel") )) == null ? '' : __t) +
+'</a>\n    <a class="btn-cmt _submit" data-tracking-origin="web.dashboard.streams.share_stream" data-tracking-action="share_stream">' +
+((__t = ( translation._("Share") )) == null ? '' : __t) +
+'</a>\n  </div>\n';
+ } ;
+__p += '\n';
+return __p
+} };
