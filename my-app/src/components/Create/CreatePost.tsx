@@ -50,7 +50,7 @@ const StyledThumbnailPreview = styled(Box)<{ img: string }>(({ img }) => ({
 
 
 
-const LinkedInPost = () => {
+const CreatePostContent = () => {
 
     const [editorText, setEditorText] = React.useState('');
     const [uploadedImage, setUploadedImage] = React.useState('');
@@ -73,8 +73,7 @@ const LinkedInPost = () => {
                 </StyledCloseButtonWrapper>
             </StyledUploadedFileWrapper>}
         </StyledFileUploadWrapper>
-
     </Box>
 }
 
-export default LinkedInPost;
+export default CreatePostContent;

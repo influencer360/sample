@@ -7,9 +7,8 @@ import ModalBody from '../UiComponents/Modal/ModalBody';
 import styled from '@emotion/styled';
 import { Box, Grid, Typography } from '@mui/material';
 import FacebookIcon from '@/assets/icons/facebook-icon.svg';
-import YoutubeIcon from '@/assets/icons/youtube-icon.svg';
+import InstagramIcon  from '@/assets/icons/instagram-icon.svg';
 import LinkedInIcon from '@/assets/icons/linkedIn-icon.svg';
-import { Label } from '@mui/icons-material';
 import { IUserInfoDropdown } from '@/utils/commonTypes';
 
 
@@ -57,7 +56,7 @@ const StyledBorderTextBox = styled('div')({
 });
 
 
-type IUserInfoMapType = {facebook:IUserInfoDropdown,linkedIn:IUserInfoDropdown, youtube:IUserInfoDropdown,}
+type IUserInfoMapType = {facebook:IUserInfoDropdown,linkedIn:IUserInfoDropdown,instagram:IUserInfoDropdown}
 
 export default function SocialLoginModal() {
 
@@ -99,12 +98,19 @@ export default function SocialLoginModal() {
         userAvatar: '',
         socialAccount: 'linkedIn'
       },
-      youtube:{
+      // youtube:{
+      //   id: Date.now(),
+      //   userName: `Youtube User${Date.now()}`,
+      //   socialIcon: '',
+      //   userAvatar: '',
+      //   socialAccount:'youtube'
+      // },
+      instagram:{
         id: Date.now(),
-        userName: `Youtube User${Date.now()}`,
+        userName: `Instagram User${Date.now()}`,
         socialIcon: '',
         userAvatar: '',
-        socialAccount:'youtube'
+        socialAccount:'instagrams'
       }
     }
     if(userTypeMap[socialId])addSocialUser(userTypeMap[socialId]);
@@ -134,7 +140,7 @@ export default function SocialLoginModal() {
                 <Box>
                   {item.id === 'facebook' && <FacebookIcon />}
                   {item.id === 'linkedIn' && <LinkedInIcon />}
-                  {item.id === 'youtube' && <YoutubeIcon />}
+                  {item.id === 'instagram' && <InstagramIcon />}
                 </Box>
                 {item.name}
               </StyledSocialBox>

@@ -6,9 +6,9 @@ import TabMenu from '../UiComponents/Tab/TabMenu';
 import TabMenuItem from '../UiComponents/Tab/TabMenuItem';
 import TabContent from '../UiComponents/Tab/TabContent';
 import { IUserInfoDropdown } from '@/utils/commonTypes';
-import YoutubePost from './YoutubePost';
-import FacebookPost from './FacebookPost';
-import LinkedInPost from './LinkedInPost';
+import InstagramPostPreview from './InstagramPostPreview';
+import FacebookPostPreview from './FacebookPostPreview';
+import LinkedInPostPreview from './LinkedInPostReview';
 
 const StyledHeaderWrapper = styled(Box)({
     fontFamily: '"Source Sans Pro", "Helvetica Neue", Helvetica, Arial',
@@ -22,21 +22,37 @@ const StyledHeaderWrapper = styled(Box)({
 
 const StyledContentWrapper = styled(Box)({
     minWidth: "350px",
-    padding: "20px 0px 0px",
+    padding: "10px 8px 5px",
     width: "100%",
     height: "100%"
 });
 
 const StyledTabContentWrapper = styled(Box)({
-    boxShadow: "rgb(124, 121, 122) 0px 0px 0px 1px",
+    display: "flex",
+    flexFlow: "column",
+    flexGrow: 1,
+    alignItems: "center",
+    justifyContent: "flex-start",
+    minHeight: "0px",
+    overflowY: "auto",
 });
+
+const StyledTabContent = styled(Box)({
+    flex: "0 0 auto",
+    display: "flex",
+    flexFlow: "column",
+    justifyContent: "flex-start",
+    width: "450px",
+    padding: "0px 0px 15px",
+    alignItems: "center"
+})
 
 const ComponentMap = ({ id }: { id: string }) => {
 
     const mapObject = {
-        youtube: <YoutubePost />,
-        facebook: <FacebookPost />,
-        linkedIn: <LinkedInPost />
+        instagram: <InstagramPostPreview />,
+        facebook: <FacebookPostPreview />,
+        linkedIn: <LinkedInPostPreview />
     }
     const objKey = id as keyof typeof mapObject;
     return mapObject[objKey]
@@ -69,14 +85,17 @@ const PostContent = ({ selectedUsers }: { selectedUsers: IUserInfoDropdown[] }) 
 
 
             {selectedUsers.map((item, index) =>
+                <StyledTabContent key={index}>
 
-                <TabContent
-                    key={index}
-                    index={index}
-                    value={tabValue}
-                >
-                    <ComponentMap id={item.socialAccount} />
-                </TabContent>
+                    <TabContent
+
+                        index={index}
+                        value={tabValue}
+                    >
+                        <ComponentMap id={item.socialAccount} />
+                    </TabContent>
+
+                </StyledTabContent>
 
             )}
 

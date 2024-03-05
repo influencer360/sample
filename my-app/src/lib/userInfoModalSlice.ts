@@ -10,7 +10,7 @@ const initialState: IUserInfoModalProps = {
     isOpen: false,
     initialValues:[
         {id:'linkedIn',name: 'LinkedIn'},
-        {id:'youtube',name:'Youtube'},
+        {id:'instagram',name:'Instagram'},
         {id:'facebook',name:'Facebook'}
     ]
 };

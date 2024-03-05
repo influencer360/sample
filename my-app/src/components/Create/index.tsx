@@ -1,29 +1,16 @@
 'use client';
 
-import { Box, Typography, styled } from "@mui/material";
-import UiButton from "../UiComponents/Button/UiButton";
+import { Box, styled } from "@mui/material";
 import SearchPublishDropdown from "../UiComponents/Dropdown/SearchPublishDropdown";
 import SocialLoginModal from "../organisms/SocialLoginModal";
-import { useActions, useAppSelector } from "@/lib/hooks";
+import {useAppSelector } from "@/lib/hooks";
 import PostContent from "./PostContent";
+import CreatePostContent from "./CreatePost";
 
 const StyledContent = styled('div')({
     display: "flex",
     paddingLeft:'32px',
 });
-const StyledFooter = styled('div')({
-    display: "flex",
-    flex: "0 0 auto",
-    alignItems: "center",
-    flexFlow: "row",
-    height: "76px",
-    userSelect: "none",
-    boxSizing: "border-box",
-    padding: "16px",
-    backgroundColor: "rgb(252, 252, 251)",
-    boxShadow: "rgba(0, 0, 0, 0.08) 0px 3px 2px inset"
-});
-
 
 const StyledHeader = styled('div')({
     display: "flex",
@@ -42,7 +29,16 @@ const StyledHeader = styled('div')({
     boxShadow: "rgba(0, 0, 0, 0.08) 0px -3px 2px inset"
 });
 
-
+const StyledPostPreviewWrapper = styled(Box)({
+    display: "flex",
+    flexFlow: "column",
+    flexGrow: 1,
+    width: "50%",
+    minHeight: "0px",
+    overflowY: "auto",
+    maxWidth: "650px",
+    flexBasis:'45%'
+  })
 
 export default function CreatePost() {
 
@@ -58,10 +54,12 @@ export default function CreatePost() {
                     listData={listData}
                     selectedUser={selectedSocialUser}
                 />
-                <PostContent selectedUsers={selectedSocialUser}/>
+                <CreatePostContent/>
 
             </Box>
-            <Box sx={{flexBasis:'45%'}}></Box>
+            <StyledPostPreviewWrapper>
+                <PostContent selectedUsers={selectedSocialUser}/>
+            </StyledPostPreviewWrapper>
         </StyledContent>
         {/* <StyledFooter>
             <UiButton label={'Save As Draft'} />

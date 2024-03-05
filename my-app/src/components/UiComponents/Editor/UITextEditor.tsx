@@ -8,12 +8,12 @@ import EmojiPicker from 'emoji-picker-react';
 import styled from '@emotion/styled';
 import { Box, Button } from '@mui/material';
 import SmileyIcon from '@/assets/icons/smiley-icon.svg';
-import createEmojiPlugin from "@draft-js-plugins/emoji";
 import {convertToHTML} from "draft-convert";
 import UiIconButton from '../Button/IconButton';
 
 const hashtagPlugin = createHashtagPlugin({ theme:{hashtag:'hashtag'}});
 const counterPlugin = createCounterPlugin();
+// const emojiPlugin = createEmojiPlugin();
 const { CharCounter } = counterPlugin;
 
 
