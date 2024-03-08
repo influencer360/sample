@@ -6,6 +6,7 @@ import SocialLoginModal from "../organisms/SocialLoginModal";
 import {useAppSelector } from "@/lib/hooks";
 import PostContent from "./PostContent";
 import CreatePostContent from "./CreatePost";
+import React from "react";
 
 const StyledContent = styled('div')({
     display: "flex",
@@ -46,6 +47,10 @@ export default function CreatePost() {
     const isSocialLoginModalOpen = useAppSelector((state) => state.userInfoModal.isOpen);
     const selectedSocialUser = useAppSelector((state) => state.userInfoDropdown.socialUserSelected);
 
+    const [postContent,setPostContent] = React.useState({
+        content:'',uploadedFile:''
+    })
+
     return <Box className="flex flex-col flex-grow">
         <StyledHeader>New Post</StyledHeader>
         <StyledContent className="flex-grow">
@@ -55,10 +60,9 @@ export default function CreatePost() {
                     selectedUser={selectedSocialUser}
                 />
                 <CreatePostContent/>
-
             </Box>
             <StyledPostPreviewWrapper>
-                <PostContent selectedUsers={selectedSocialUser}/>
+                <PostContent selectedUsers={selectedSocialUser} postContent={postContent} />
             </StyledPostPreviewWrapper>
         </StyledContent>
         {/* <StyledFooter>

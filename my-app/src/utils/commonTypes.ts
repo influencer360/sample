@@ -10,3 +10,11 @@ export type IDropdownOptions = {
     favorites:Array<IUserInfoDropdown>;
     private:Array<IUserInfoDropdown>;
 }
+
+
+export type IPostContentType = {
+    content:string;
+    uploadedFile:string;
+}
+
+export type ImgType = {imgFile:string; id:number};

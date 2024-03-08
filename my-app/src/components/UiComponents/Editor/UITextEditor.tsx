@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { EditorState, convertToRaw } from 'draft-js';
+import { EditorState } from 'draft-js';
 import Editor from '@draft-js-plugins/editor';
 import createHashtagPlugin from '@draft-js-plugins/hashtag';
 import createCounterPlugin from '@draft-js-plugins/counter';
@@ -8,10 +8,10 @@ import EmojiPicker from 'emoji-picker-react';
 import styled from '@emotion/styled';
 import { Box, Button } from '@mui/material';
 import SmileyIcon from '@/assets/icons/smiley-icon.svg';
-import {convertToHTML} from "draft-convert";
+import { convertToHTML } from "draft-convert";
 import UiIconButton from '../Button/IconButton';
 
-const hashtagPlugin = createHashtagPlugin({ theme:{hashtag:'hashtag'}});
+const hashtagPlugin = createHashtagPlugin({ theme: { hashtag: 'hashtag' } });
 const counterPlugin = createCounterPlugin();
 // const emojiPlugin = createEmojiPlugin();
 const { CharCounter } = counterPlugin;
@@ -33,8 +33,8 @@ const StyledEditorContainer = styled(Box)({
         height: "auto",
         boxShadow: "none"
     },
-    '.hashtag':{
-        color:'blue'
+    '.hashtag': {
+        color: 'blue'
     },
     '.public-DraftEditorPlaceholder-root': {
         position: 'absolute',
@@ -98,51 +98,58 @@ const StyledToolbarActionWrapper = styled(Box)({
 
 
 
-type IProps ={setEditorText:(arg1:string)=>void};
+type IProps = { setEditorText: (arg1: string) => void };
 
 
-const UiTextEditor = ({setEditorText}:IProps) => {
-    const [editorState, setEditorState] = React.useState(
-        EditorState.createEmpty()
-    );
-    const [emojiStatus,setEmojiStatus] = React.useState(false);
+const UiTextEditor = ({ setEditorText }: IProps) => {
+
+    const [editorState, setEditorState] = React.useState<EditorState>();
+    const [emojiStatus, setEmojiStatus] = React.useState(false);
 
     const editor = React.useRef<Editor>(null);
 
     const focusEditor = () => {
         if (editor?.current)
             editor.current.focus();
+    };
+
+    const onChange = (editorState: EditorState) => {
+        setEditorState(editorState);
+        setEditorText(convertToHTML(editorState.getCurrentContent()))
     }
 
-    React.useEffect(()=>{
-        setEditorText(convertToHTML(editorState.getCurrentContent()))
+    React.useEffect(() => {
+        setEditorState(EditorState.createEmpty());
+        focusEditor();
 
-    },[editorState, setEditorText]);
+    }, []);
+
 
     return (
         <StyledEditorContainer onClick={focusEditor}>
-            <Editor
+
+            {!!editorState && <><Editor
                 ref={editor}
                 plugins={[hashtagPlugin, counterPlugin]}
                 placeholder='Enter your texts and links'
                 editorState={editorState}
-                onChange={editorState => setEditorState(editorState)}
+                onChange={editorState => onChange(editorState)}
             />
-            <StyledEditorToolbar>
-                <StyledCharacterCountWrapper>
-                    <CharCounter limit={300} />
-                </StyledCharacterCountWrapper>
-                <StyledToolbarActionWrapper className="relative">
-                        <UiIconButton onClick={()=> setEmojiStatus((value)=> !value)}>
+                <StyledEditorToolbar>
+                    <StyledCharacterCountWrapper>
+                        <CharCounter limit={300} />
+                    </StyledCharacterCountWrapper>
+                    <StyledToolbarActionWrapper className="relative">
+                        <UiIconButton onClick={() => setEmojiStatus((value) => !value)}>
                             <SmileyIcon />
                         </UiIconButton>
-                    <div className="absolute z-10 right-0 top-10 overflow-y-scroll">
-                        {emojiStatus &&<EmojiPicker onEmojiClick={(...props)=>{
-                            console.log(props,'emojiProps')
-                        }} />}
-                    </div>
-                </StyledToolbarActionWrapper>
-            </StyledEditorToolbar>
+                        <div className="absolute z-10 right-0 top-10 overflow-y-scroll">
+                            {emojiStatus && <EmojiPicker onEmojiClick={(...props) => {
+                                console.log(props, 'emojiProps')
+                            }} />}
+                        </div>
+                    </StyledToolbarActionWrapper>
+                </StyledEditorToolbar></>}
         </StyledEditorContainer>
     );
 };

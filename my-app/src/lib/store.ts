@@ -1,10 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { userInfoModalReducer } from './userInfoModalSlice'
 import { userInfoReducer } from './userInfoSlice'
+import { mediaGalleryModalReducer } from './mediaGalleryModalSlice'
+import { createPostContentReducer } from './createPostContentSlice'
 
 export const makeStore = () => {
   return configureStore({
-    reducer: {userInfoModal:userInfoModalReducer,userInfoDropdown:userInfoReducer},
+    reducer: {
+      userInfoModal:userInfoModalReducer,
+      userInfoDropdown:userInfoReducer,
+      mediaGalleryModal:mediaGalleryModalReducer,
+      createPostContent:createPostContentReducer
+    },
   })
 }
 

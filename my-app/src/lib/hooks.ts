@@ -4,10 +4,14 @@ import type { RootState } from './store'
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { userInfoModalActions } from './userInfoModalSlice';
 import { userInfoActions } from './userInfoSlice';
+import { mediaGalleryModalActions } from './mediaGalleryModalSlice';
+import { createPostContentActions } from './createPostContentSlice';
 
 const actions = {
     ...userInfoModalActions,
-    ...userInfoActions
+    ...userInfoActions,
+    ...mediaGalleryModalActions,
+    ...createPostContentActions
 };
 
 // Use throughout your app instead of plain `useDispatch` and `useSelector`

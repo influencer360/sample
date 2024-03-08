@@ -5,7 +5,7 @@ import React from 'react';
 import TabMenu from '../UiComponents/Tab/TabMenu';
 import TabMenuItem from '../UiComponents/Tab/TabMenuItem';
 import TabContent from '../UiComponents/Tab/TabContent';
-import { IUserInfoDropdown } from '@/utils/commonTypes';
+import { IPostContentType, IUserInfoDropdown } from '@/utils/commonTypes';
 import InstagramPostPreview from './InstagramPostPreview';
 import FacebookPostPreview from './FacebookPostPreview';
 import LinkedInPostPreview from './LinkedInPostReview';
@@ -47,18 +47,18 @@ const StyledTabContent = styled(Box)({
     alignItems: "center"
 })
 
-const ComponentMap = ({ id }: { id: string }) => {
+const ComponentMap = ({ id,selectedUser,postContent }: { id: string, selectedUser: IUserInfoDropdown, postContent:IPostContentType }) => {
 
     const mapObject = {
-        instagram: <InstagramPostPreview />,
+        instagram: <InstagramPostPreview  />,
         facebook: <FacebookPostPreview />,
-        linkedIn: <LinkedInPostPreview />
+        linkedIn: <LinkedInPostPreview selectedUser={selectedUser} postContent={postContent} />
     }
     const objKey = id as keyof typeof mapObject;
     return mapObject[objKey]
 }
 
-const PostContent = ({ selectedUsers }: { selectedUsers: IUserInfoDropdown[] }) => {
+const PostContent = ({ selectedUsers,postContent }: { selectedUsers: IUserInfoDropdown[], postContent:IPostContentType }) => {
 
     const [tabValue, setTabValue] = React.useState(0);
 
@@ -92,9 +92,8 @@ const PostContent = ({ selectedUsers }: { selectedUsers: IUserInfoDropdown[] }) 
                         index={index}
                         value={tabValue}
                     >
-                        <ComponentMap id={item.socialAccount} />
+                        <ComponentMap id={item.socialAccount} selectedUser={item} postContent={postContent} />
                     </TabContent>
-
                 </StyledTabContent>
 
             )}

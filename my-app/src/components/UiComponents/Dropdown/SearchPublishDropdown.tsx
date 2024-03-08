@@ -95,18 +95,40 @@ type IPropsDropdown = {
     selectedItems: Array<IUserInfoDropdown>;
     favoriteHandler: (id: number) => void;
     selectionHandler: (id: number) => void;
+    setDropdown:React.Dispatch<React.SetStateAction<boolean>>
 }
 
 
 
-const Dropdown = ({ list, selectedItems, favoriteHandler, selectionHandler }: IPropsDropdown) => {
+const Dropdown = ({ list, selectedItems, favoriteHandler, selectionHandler,setDropdown }: IPropsDropdown) => {
+
+    const modalEl = React.useRef<HTMLDivElement>(null);
+    const { openUserInfoModal,closeUserInfoModal } = useActions();
+
+    React.useEffect(() => {
+        const handler = (ev: MouseEvent) => {
+          if (!modalEl.current) {
+            return;
+          }
+          // if click was not inside of the element. "!" means not
+          // in other words, if click is outside the modal element
+          if(modalEl?.current){
+            
+            if (!modalEl.current?.contains(ev.target as Node)) {
+                setDropdown(false);
+            }
+          }
+        };
+        // the key is using the `true` option
+        // `true` will enable the `capture` phase of event handling by browser
+        document?.addEventListener("click", handler, true);
+        return () => {
+          document.removeEventListener("click", handler);
+        };
+      }, [setDropdown]);
 
 
-
-    const { openUserInfoModal } = useActions();
-
-
-    return (<div id="dropdown" className="absolute shadow top-100 bg-white z-40 w-full lef-0 rounded max-h-select overflow-y-auto ">
+    return (<div id="dropdown" ref={modalEl} className="absolute shadow top-100 bg-white z-40 w-full lef-0 rounded max-h-select overflow-y-auto ">
         <div className="flex flex-col w-full" style={{ border: '2px solid #000', borderRadius: '2px' }}>
             {!list.favorites.length && !list.private.length ? <StyledAddAccountWrapper>
                 No social Account added
@@ -233,6 +255,7 @@ const SearchPublishDropdown = ({ listData, selectedUser }: { listData: IDropdown
                         selectedItems={selectedUser}
                         favoriteHandler={favoriteHandler}
                         selectionHandler={selectionHandler}
+                        setDropdown={setDropdown}
                     /> : <></>}
             </div>
         </div>)

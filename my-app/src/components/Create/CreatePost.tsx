@@ -5,12 +5,13 @@ import UiTextEditor from '../UiComponents/Editor/UITextEditor';
 import UiFileUploader from '../UiComponents/FileUploader/UiFileUploader';
 import UiIconButton from '../UiComponents/Button/IconButton';
 import CloseIcon from '@/assets/icons/close-icon.svg';
+import { IPostContentType, ImgType } from '@/utils/commonTypes';
+import ImageGalleryModal from '../organisms/ImageGalleryModal';
+import { useActions, useAppSelector } from '@/lib/hooks';
 
 const StyledFileUploadWrapper = styled(Box)({
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, 112px)",
-    columnGap: "20px",
-    gridAutoFlow: "column",
+    display:'flex',
+    gap:'10px',
     position: "relative",
     padding: "24px"
 });
@@ -28,7 +29,8 @@ const StyledCloseButtonWrapper = styled(Box)({
     top: "-8px",
     right: "-8px",
     marginLeft: "8px",
-    backgroundColor: "rgb(20, 48, 89)"
+    backgroundColor: "rgb(20, 48, 89)",
+    cursor:'pointer'
 });
 
 const StyledThumbnailWrapper = styled(Box)({
@@ -36,7 +38,8 @@ const StyledThumbnailWrapper = styled(Box)({
     width: "112px",
     overflow: "hidden",
     minWidth: "112px",
-    cursor:'pointer'
+    cursor:'pointer',
+    borderRadius:'10px'
 });
 
 const StyledThumbnailPreview = styled(Box)<{ img: string }>(({ img }) => ({
@@ -49,30 +52,52 @@ const StyledThumbnailPreview = styled(Box)<{ img: string }>(({ img }) => ({
 }))
 
 
+type IProps = {
+    setPostContent:React.Dispatch<React.SetStateAction<IPostContentType>>
+    postContent:IPostContentType
+}
+
 
 const CreatePostContent = () => {
 
-    const [editorText, setEditorText] = React.useState('');
-    const [uploadedImage, setUploadedImage] = React.useState('');
 
-    const handleFileChange = (uploadedFile: string) => {
-        setUploadedImage(uploadedFile)
+    const  uploadedImages = useAppSelector((state)=>state.createPostContent.initialValues.imageFiles)
+    const {addPostContent,addImageFile,removeImageFile} = useActions();
+    const editorTextHandler = (value:string)=>{
+        addPostContent(value);
     }
+
+    const handleImageFile = (uploadedFiles:File[])=>{
+
+            uploadedFiles.forEach((value)=>{                
+                const reader = new FileReader();
+                reader.readAsDataURL(value)
+                reader.onload = () => {
+                    addImageFile({id:Date.now(),imgFile:reader.result as string})
+                };
+                reader.onerror = (error) => {
+                    console.log('Error: ', error);
+                };
+
+            });
+    }
+
     return <Box className="w-full">
-        <UiTextEditor setEditorText={setEditorText} />
+        <UiTextEditor setEditorText={editorTextHandler} />
         <StyledFileUploadWrapper>
-            <UiFileUploader handleFile={handleFileChange} />
-            {!!uploadedImage.length && <StyledUploadedFileWrapper>
+            <UiFileUploader handleFile={(value:File[])=>handleImageFile(value)} />
+            {!!uploadedImages.length && uploadedImages.map((item,key)=><StyledUploadedFileWrapper key={key}>
                 <StyledThumbnailWrapper>
-                    <StyledThumbnailPreview img={uploadedImage} />
+                    <StyledThumbnailPreview img={item.imgFile} />
                 </StyledThumbnailWrapper>
-                <StyledCloseButtonWrapper  className='rounded-full' onClick={() => setUploadedImage('')}>
+                <StyledCloseButtonWrapper  className='rounded-full' onClick={() => removeImageFile(item.id)}>
                     <UiIconButton>
                         <CloseIcon />
                     </UiIconButton>
                 </StyledCloseButtonWrapper>
-            </StyledUploadedFileWrapper>}
+            </StyledUploadedFileWrapper>)}
         </StyledFileUploadWrapper>
+        <ImageGalleryModal/>
     </Box>
 }
 
