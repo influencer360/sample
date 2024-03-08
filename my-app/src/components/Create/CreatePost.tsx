@@ -122,7 +122,6 @@ const CreateSocialPost = ({ socialUser, activeTab }: { socialUser: IUserContentT
                 </StyledCloseButtonWrapper>
             </StyledUploadedFileWrapper>)}
         </StyledFileUploadWrapper>
-
     </Box>
 }
 
