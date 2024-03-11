@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px" viewBox="0 0 20 20" version="1.1">
+    <!-- Generator: Sketch 53.1 (72631) - https://sketchapp.com -->
+    <title>LI-comment</title>
+    <desc>Created with Sketch.</desc>
+    <g id="LI-comment" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M15,13.3740956 L15,7 L6,7 L6,12.4541394 L14.1804703,12.4541394 L15,13.3740956 Z" id="Rectangle" stroke="#666666" stroke-width="2"/>
+        <path d="M8.5,9.6592841 L12.5126783,9.6592841" id="Line" stroke="#666666" stroke-linecap="square"/>
+        <rect id="bound" stroke-opacity="0" stroke="#979797" x="0.5" y="0.5" width="19" height="19"/>
+    </g>
+</svg>

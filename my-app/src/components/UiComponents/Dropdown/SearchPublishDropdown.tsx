@@ -11,6 +11,8 @@ import FavoriteUncheckedIcon from '@/assets/icons/favorite-unchecked.svg';
 import CloseIcon from '@/assets/icons/close-icon.svg';
 import { useActions, useAppSelector } from '@/lib/hooks';
 import { IDropdownOptions, IUserInfoDropdown } from '@/utils/commonTypes';
+import { useGetSocialUsersQuery } from '@/lib/api/coreApi';
+import UiLoader from '../UiLoader';
 
 const StyledUserName = styled('div')({
     color: "rgb(36, 31, 33)",
@@ -105,6 +107,8 @@ const Dropdown = ({ list, selectedItems, favoriteHandler, selectionHandler,setDr
     const modalEl = React.useRef<HTMLDivElement>(null);
     const { openUserInfoModal,closeUserInfoModal } = useActions();
 
+    const {data:{socialUsers}={},isLoading} = useGetSocialUsersQuery();
+
     React.useEffect(() => {
         const handler = (ev: MouseEvent) => {
           if (!modalEl.current) {
@@ -130,7 +134,8 @@ const Dropdown = ({ list, selectedItems, favoriteHandler, selectionHandler,setDr
 
     return (<div id="dropdown" ref={modalEl} className="absolute shadow top-100 bg-white z-40 w-full lef-0 rounded max-h-select overflow-y-auto ">
         <div className="flex flex-col w-full" style={{ border: '2px solid #000', borderRadius: '2px' }}>
-            {!list.favorites.length && !list.private.length ? <StyledAddAccountWrapper>
+            {isLoading && <StyledAddAccountWrapper><UiLoader/></StyledAddAccountWrapper>}
+            {!list.favorites.length && !isLoading && !list.private.length ? <StyledAddAccountWrapper>
                 No social Account added
             </StyledAddAccountWrapper> : <>{!!list.favorites.length && (<>
                 <StyledDropdownSectionHeading>

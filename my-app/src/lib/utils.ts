@@ -26,4 +26,15 @@ export const stringAvatar = (name: string) =>{
       },
       children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
     };
-  }
+}
+
+export const  hashtag =(text:string)=>{
+    var repl = text.replace(/#(\w+)/g, `<span style="color:blue;">$&</span>`);
+    return repl;
+}
+
+export const stringToHTML = (str:string) =>{
+	var parser = new DOMParser();
+	var doc = parser.parseFromString(str, 'text/html');
+	return doc.body;
+};

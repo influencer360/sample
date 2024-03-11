@@ -3,15 +3,22 @@ import { userInfoModalReducer } from './userInfoModalSlice'
 import { userInfoReducer } from './userInfoSlice'
 import { mediaGalleryModalReducer } from './mediaGalleryModalSlice'
 import { createPostContentReducer } from './createPostContentSlice'
+import { coreApi } from './api/coreApi'
+import { makeServer } from './mockServer'
+
+makeServer({ environment: "development" })
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
+      [coreApi.reducerPath]: coreApi.reducer,
       userInfoModal:userInfoModalReducer,
       userInfoDropdown:userInfoReducer,
       mediaGalleryModal:mediaGalleryModalReducer,
       createPostContent:createPostContentReducer
     },
+    middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat([coreApi.middleware])
   })
 }
 

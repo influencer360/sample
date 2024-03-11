@@ -7,6 +7,9 @@ import {useAppSelector } from "@/lib/hooks";
 import PostContent from "./PostContent";
 import CreatePostContent from "./CreatePost";
 import React from "react";
+import UiButtonDropdown from "../UiComponents/Dropdown/UiButtonDropdown";
+import UiButton from "../UiComponents/Button/UiButton";
+import PostScheduleModal from "../organisms/PostScheduleModal";
 
 const StyledContent = styled('div')({
     display: "flex",
@@ -39,6 +42,21 @@ const StyledPostPreviewWrapper = styled(Box)({
     overflowY: "auto",
     maxWidth: "650px",
     flexBasis:'45%'
+})
+
+const StyledPostFooterWrapper = styled(Box)({
+    justifyContent: "flex-end",
+    display: "flex",
+    flex: "0 0 auto",
+    alignItems: "center",
+    flexFlow: "row",
+    height: "76px",
+    userSelect: "none",
+    boxSizing: "border-box",
+    padding: "16px",
+    backgroundColor: "rgb(252, 252, 251)",
+    boxShadow: "rgba(0, 0, 0, 0.08) 0px 3px 2px inset",
+    gap:'5px'
   })
 
 export default function CreatePost() {
@@ -62,12 +80,13 @@ export default function CreatePost() {
                 <CreatePostContent/>
             </Box>
             <StyledPostPreviewWrapper>
-                <PostContent selectedUsers={selectedSocialUser} postContent={postContent} />
+                <PostContent selectedUsers={selectedSocialUser} />
             </StyledPostPreviewWrapper>
         </StyledContent>
-        {/* <StyledFooter>
-            <UiButton label={'Save As Draft'} />
-        </StyledFooter> */}
+        <StyledPostFooterWrapper>
+            <PostScheduleModal/>
+            <UiButtonDropdown/>
+        </StyledPostFooterWrapper>
         {isSocialLoginModalOpen &&<SocialLoginModal/>}
     </Box>
 }
