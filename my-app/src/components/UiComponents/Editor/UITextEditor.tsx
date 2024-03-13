@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { EditorState } from 'draft-js';
+import { ContentState, EditorState } from 'draft-js';
 import Editor from '@draft-js-plugins/editor';
 import createHashtagPlugin from '@draft-js-plugins/hashtag';
 import createCounterPlugin from '@draft-js-plugins/counter';
@@ -8,7 +8,7 @@ import EmojiPicker from 'emoji-picker-react';
 import styled from '@emotion/styled';
 import { Box, Button } from '@mui/material';
 import SmileyIcon from '@/assets/icons/smiley-icon.svg';
-import { convertToHTML } from "draft-convert";
+import { convertFromHTML, convertToHTML } from "draft-convert";
 import UiIconButton from '../Button/IconButton';
 
 const hashtagPlugin = createHashtagPlugin({ theme: { hashtag: 'hashtag' } });
@@ -98,10 +98,10 @@ const StyledToolbarActionWrapper = styled(Box)({
 
 
 
-type IProps = { setEditorText: (arg1: string) => void };
+type IProps = { setEditorText: (arg1: string) => void,editorContent:string};
 
 
-const UiTextEditor = ({ setEditorText }: IProps) => {
+const UiTextEditor = ({ setEditorText,editorContent }: IProps) => {
 
     const [editorState, setEditorState] = React.useState<EditorState>();
     const [emojiStatus, setEmojiStatus] = React.useState(false);
@@ -119,9 +119,17 @@ const UiTextEditor = ({ setEditorText }: IProps) => {
     }
 
     React.useEffect(() => {
-        setEditorState(EditorState.createEmpty());
-        focusEditor();
+        if(editorContent.length){
+            const blocksFromHTML = convertFromHTML(editorContent);
+            const state = ContentState.createFromBlockArray(blocksFromHTML.getBlocksAsArray(),blocksFromHTML.getEntityMap());
+            setEditorState(EditorState.createWithContent(state));
+            focusEditor();
 
+        }
+        else{
+            setEditorState(EditorState.createEmpty());
+            focusEditor();
+        }
     }, []);
 
 

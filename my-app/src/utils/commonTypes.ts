@@ -6,15 +6,11 @@ export type IUserInfoDropdown = {
     socialAccount:string;
 }
 
-export type IDropdownOptions = {
-    favorites:Array<IUserInfoDropdown>;
-    private:Array<IUserInfoDropdown>;
-}
-
-
 export type IPostContentType = {
     content:string;
     uploadedFile:string;
-}
+};
+
+export type IUserContentType = {content:string;imageFiles:Array<ImgType>;} &IUserInfoDropdown;
 
 export type ImgType = {imgFile:string; id:number};

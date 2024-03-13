@@ -1,13 +1,12 @@
+import { IUserInfoDropdown } from "@/utils/commonTypes";
 import { createServer, Model } from "miragejs"
-
-type UserModelType ={name:string} ;
 
 export function makeServer({ environment = "test" } = {}) {
   let server = createServer({
     environment,
 
     models: {
-      socialUsers:Model.extend<Partial<UserModelType>>({}),
+      socialUser:Model.extend<Partial<IUserInfoDropdown>>({}),
     },
 
     seeds(server) {
@@ -19,7 +18,11 @@ export function makeServer({ environment = "test" } = {}) {
       this.namespace = "api";
       this.timing = 2000;
       this.get("/socialUsers", (schema) => {
-        return schema.all('socialUsers')
+        return schema.all('socialUser')
+      })
+      this.post("/socialUser", (schema, request) => {
+        let attrs = JSON.parse(request.requestBody);
+       return schema.create("socialUser", attrs);
       })
     },
   })

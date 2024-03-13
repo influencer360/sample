@@ -68,11 +68,11 @@ const itemData = [
     },
 ];
 
-export default function ImageGalleryModal() {
+export default function ImageGalleryModal({activeTab}:{activeTab:number}) {
 
     const isOpen = useAppSelector((state) => state.mediaGalleryModal.isOpen);
 
-    const { closeMediaGalleryModal,addImageFile } =
+    const { closeMediaGalleryModal,addImageFile,addSocialUserAddImagesAction } =
         useActions();
 
     const handleClose = () => {
@@ -80,7 +80,8 @@ export default function ImageGalleryModal() {
     };
 
     const imageSelection =(value:string)=>{
-        addImageFile({id:Date.now(),imgFile:value})
+        if(activeTab)  addSocialUserAddImagesAction({idx:activeTab-1,imageFile:{id:Date.now(),imgFile: value}})
+        else addImageFile({id:Date.now(),imgFile:value})
         closeMediaGalleryModal();
 
     }

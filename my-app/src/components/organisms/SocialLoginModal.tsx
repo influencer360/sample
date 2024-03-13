@@ -10,6 +10,8 @@ import FacebookIcon from '@/assets/icons/facebook-icon.svg';
 import InstagramIcon  from '@/assets/icons/instagram-icon.svg';
 import LinkedInIcon from '@/assets/icons/linkedIn-icon.svg';
 import { IUserInfoDropdown } from '@/utils/commonTypes';
+import { useAddSocialUserMutation } from '@/lib/api/coreApi';
+import UiOverlayLoader from '../UiComponents/Loader/UIOverlayLoader';
 
 
 // delete modal has different width in UI. To keep the logic intact Within this component for add, edit and delete,
@@ -60,6 +62,7 @@ type IUserInfoMapType = {facebook:IUserInfoDropdown,linkedIn:IUserInfoDropdown,i
 
 export default function SocialLoginModal() {
 
+  const [addSocialUser,{isLoading}] = useAddSocialUserMutation();
 
   const initialValues = useAppSelector(
     (state) => state.userInfoModal.initialValues
@@ -67,17 +70,12 @@ export default function SocialLoginModal() {
 
   const isOpen = useAppSelector((state) => state.userInfoModal.isOpen);
 
-  const { closeUserInfoModal, addSocialUser } =
+  const { closeUserInfoModal } =
     useActions();
 
   const handleClose = () => {
     closeUserInfoModal();
   };
-
-  const onSubmit = async () => {
-
-  };
-
 
   const clickHandler = (id: String) => {
 
@@ -110,10 +108,14 @@ export default function SocialLoginModal() {
         userName: `Instagram User${Date.now()}`,
         socialIcon: '',
         userAvatar: '',
-        socialAccount:'instagrams'
+        socialAccount:'instagram'
       }
     }
-    if(userTypeMap[socialId])addSocialUser(userTypeMap[socialId]);
+    addSocialUser(userTypeMap[socialId]).unwrap().then(()=>{
+      handleClose();
+    }).catch(()=>{
+      console.log('Add Social User Error ');
+    })
   }
 
 
@@ -125,6 +127,7 @@ export default function SocialLoginModal() {
     >
       <ModalTitle onClose={handleClose}>{'Add an account to Hootsuite'}</ModalTitle>
       <ModalBody>
+        {isLoading && <UiOverlayLoader/>}
         <StyledAddToBox >
           <Typography sx={{ fontWeight: 400 }}>
             Add To :
@@ -133,7 +136,7 @@ export default function SocialLoginModal() {
             <Typography sx={{ fontWeight: 'bold' }}>Private accounts</Typography>
           </StyledBorderTextBox>
         </StyledAddToBox>
-        <Grid sx={{ padding: '20px' }} container spacing={{ xs: 1, md: 2 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+        <Grid sx={{ padding: '20px',...isLoading&&{pointerEvents:'none'} }} container spacing={{ xs: 1, md: 2 }} columns={{ xs: 4, sm: 8, md: 12 }}>
           {initialValues.map((item, key) => (
             <Grid item xs={2} sm={2} md={2} key={key} onClick={() => clickHandler(item.id)}>
               <StyledSocialBox key={key}>

@@ -8,7 +8,6 @@ import PostContent from "./PostContent";
 import CreatePostContent from "./CreatePost";
 import React from "react";
 import UiButtonDropdown from "../UiComponents/Dropdown/UiButtonDropdown";
-import UiButton from "../UiComponents/Button/UiButton";
 import PostScheduleModal from "../organisms/PostScheduleModal";
 
 const StyledContent = styled('div')({
@@ -40,7 +39,7 @@ const StyledPostPreviewWrapper = styled(Box)({
     width: "50%",
     minHeight: "0px",
     overflowY: "auto",
-    maxWidth: "650px",
+    maxWidth: "749px",
     flexBasis:'45%'
 })
 
@@ -61,26 +60,22 @@ const StyledPostFooterWrapper = styled(Box)({
 
 export default function CreatePost() {
 
-    const listData = useAppSelector((state) => state.userInfoDropdown.userData);
+    const favorites = useAppSelector((state) => state.userInfoDropdown.favorites);
     const isSocialLoginModalOpen = useAppSelector((state) => state.userInfoModal.isOpen);
     const selectedSocialUser = useAppSelector((state) => state.userInfoDropdown.socialUserSelected);
-
-    const [postContent,setPostContent] = React.useState({
-        content:'',uploadedFile:''
-    })
 
     return <Box className="flex flex-col flex-grow">
         <StyledHeader>New Post</StyledHeader>
         <StyledContent className="flex-grow">
             <Box sx={{flexBasis:'55%'}} className="flex flex-col">
                 <SearchPublishDropdown 
-                    listData={listData}
+                    favorites={favorites}
                     selectedUser={selectedSocialUser}
                 />
                 <CreatePostContent/>
             </Box>
             <StyledPostPreviewWrapper>
-                <PostContent selectedUsers={selectedSocialUser} />
+                <PostContent/>
             </StyledPostPreviewWrapper>
         </StyledContent>
         <StyledPostFooterWrapper>

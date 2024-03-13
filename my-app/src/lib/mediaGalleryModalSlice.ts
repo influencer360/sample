@@ -1,4 +1,3 @@
-import { IDropdownOptions,IUserInfoDropdown } from '@/utils/commonTypes';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface IMediaModalGalleryProps {

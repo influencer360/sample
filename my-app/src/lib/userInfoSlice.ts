@@ -1,13 +1,13 @@
-import { IDropdownOptions,IUserInfoDropdown } from '@/utils/commonTypes';
+import {IUserInfoDropdown } from '@/utils/commonTypes';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface IUserInfoProps {
-  userData:IDropdownOptions;
-  socialUserSelected:Array<IUserInfoDropdown>;
+    favorites:Array<IUserInfoDropdown>;
+    socialUserSelected:Array<IUserInfoDropdown>;
 }
 
 const initialState: IUserInfoProps = {
-    userData:{favorites:[],private:[]},
+    favorites:[],
     socialUserSelected:[]
 };
 
@@ -15,12 +15,8 @@ const userInfoSlice = createSlice({
   name: 'userInfo',
   initialState,
   reducers: {
-    addSocialUser:(state,action: PayloadAction<IUserInfoDropdown>)=>({
-        ...initialState,
-        userData:{...state.userData,private:[...state.userData.private,action.payload]}
-    }),
     favoriteUserAction:(state,action: PayloadAction<Array<IUserInfoDropdown>>)=>{
-        state.userData = {...state.userData,favorites:action.payload}
+        state.favorites = action.payload;
     },
     socialUserSelectionAction:(state,action: PayloadAction<Array<IUserInfoDropdown>>)=>{
         state.socialUserSelected = action.payload;

@@ -1,11 +1,15 @@
 'use client';
-import { Alert, Box, Typography, styled } from '@mui/material';
+import { Alert, Box, Button, ClickAwayListener, Typography, styled } from '@mui/material';
 import React from 'react';
 import UiButton from '../UiComponents/Button/UiButton';
 import UiDatePicker from '../UiComponents/DateTimePicker/UIDatePicker';
 import { Moment } from 'moment';
 import moment from 'moment-timezone';
 import UiTimePicker from '../UiComponents/DateTimePicker/UiTimePicker';
+import { useActions, useAppSelector } from '@/lib/hooks';
+import SimpleButton from '../UiComponents/Button/SimpleButton';
+import IconButton from '../UiComponents/Button/IconButton';
+import CloseIcon from '@/assets/icons/close-icon.svg'
 
 
 const StyledWrapper = styled(Box)({ position: "relative", display: "inline-block" });
@@ -63,7 +67,15 @@ const PostScheduleModal = () => {
     const [dateTimeValue, setDateTimeValue] = React.useState<Moment>(moment.tz(moment(), "America/Los_Angeles").add(1, 'hours'));
     const [timeValidationError, setTimeError] = React.useState<boolean>(false);
 
+    const scheduledTime = useAppSelector((state)=>state.createPostContent.initialValues.schedule)
+
+    const {schedulePostAction} = useActions();
+
     const modalEl = React.useRef<HTMLDivElement>(null);
+
+    const formatTime = (momentTime:string)=>{
+        return moment(momentTime).format('LLLL');
+    }
 
     React.useEffect(() => {
         if (timeValidationError) {
@@ -96,12 +108,24 @@ const PostScheduleModal = () => {
 
     const handleSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
+        schedulePostAction(dateTimeValue.format())
         setDisplay(false);
+    }
+    const handleClear =(event:React.MouseEvent<HTMLButtonElement, MouseEvent>)=>{
+        event.stopPropagation();
+        schedulePostAction('')
+
     }
 
 
-    return <StyledWrapper>
-        <UiButton sx={{ position: "relative" }} label="Schedule" onClick={() => setDisplay((value) => !value)} />
+    return <ClickAwayListener onClickAway={()=>setDisplay(false)}>
+        <StyledWrapper>
+        {scheduledTime.length?
+        <SimpleButton sx={{ position: "relative" }}  onClick={() => setDisplay((value) => !value)} >
+            {formatTime(scheduledTime)}
+            <IconButton className='ml-1' onClick={handleClear}><CloseIcon/></IconButton>
+        </SimpleButton>
+        :<UiButton sx={{ position: "relative" }} label={"Schedule"} onClick={() => setDisplay((value) => !value)} />}
         {toggleDisplay && <StyledContentWrapper ref={modalEl}>
             <StyledContent>
                 <StyledContentHeading>Schedule post</StyledContentHeading>
@@ -118,6 +142,7 @@ const PostScheduleModal = () => {
             </StyledContent>
         </StyledContentWrapper>}
     </StyledWrapper>
+        </ClickAwayListener>
 };
 
 

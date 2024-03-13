@@ -10,9 +10,10 @@ import FavoriteCheckIcon from '@/assets/icons/favorite-checked.svg';
 import FavoriteUncheckedIcon from '@/assets/icons/favorite-unchecked.svg';
 import CloseIcon from '@/assets/icons/close-icon.svg';
 import { useActions, useAppSelector } from '@/lib/hooks';
-import { IDropdownOptions, IUserInfoDropdown } from '@/utils/commonTypes';
+import { IUserInfoDropdown } from '@/utils/commonTypes';
 import { useGetSocialUsersQuery } from '@/lib/api/coreApi';
 import UiLoader from '../UiLoader';
+import { ClickAwayListener } from '@mui/material';
 
 const StyledUserName = styled('div')({
     color: "rgb(36, 31, 33)",
@@ -93,57 +94,35 @@ const StyledAddAccountText = styled('span')({
 
 
 type IPropsDropdown = {
-    list: IDropdownOptions;
+    isLoading: Boolean;
+    favorites: Array<IUserInfoDropdown>;
+    socialUsers: Array<IUserInfoDropdown>;
     selectedItems: Array<IUserInfoDropdown>;
     favoriteHandler: (id: number) => void;
     selectionHandler: (id: number) => void;
-    setDropdown:React.Dispatch<React.SetStateAction<boolean>>
+    setDropdown: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 
 
-const Dropdown = ({ list, selectedItems, favoriteHandler, selectionHandler,setDropdown }: IPropsDropdown) => {
+const Dropdown = ({ socialUsers, favorites, selectedItems, favoriteHandler, selectionHandler, setDropdown, isLoading }: IPropsDropdown) => {
 
-    const modalEl = React.useRef<HTMLDivElement>(null);
-    const { openUserInfoModal,closeUserInfoModal } = useActions();
-
-    const {data:{socialUsers}={},isLoading} = useGetSocialUsersQuery();
-
-    React.useEffect(() => {
-        const handler = (ev: MouseEvent) => {
-          if (!modalEl.current) {
-            return;
-          }
-          // if click was not inside of the element. "!" means not
-          // in other words, if click is outside the modal element
-          if(modalEl?.current){
-            
-            if (!modalEl.current?.contains(ev.target as Node)) {
-                setDropdown(false);
-            }
-          }
-        };
-        // the key is using the `true` option
-        // `true` will enable the `capture` phase of event handling by browser
-        document?.addEventListener("click", handler, true);
-        return () => {
-          document.removeEventListener("click", handler);
-        };
-      }, [setDropdown]);
+    const { openUserInfoModal } = useActions();
 
 
-    return (<div id="dropdown" ref={modalEl} className="absolute shadow top-100 bg-white z-40 w-full lef-0 rounded max-h-select overflow-y-auto ">
+    return (<ClickAwayListener onClickAway={()=>setDropdown(false)}>
+        <div id="dropdown" className="absolute shadow top-100 bg-white z-40 w-full lef-0 rounded max-h-select overflow-y-auto ">
         <div className="flex flex-col w-full" style={{ border: '2px solid #000', borderRadius: '2px' }}>
-            {isLoading && <StyledAddAccountWrapper><UiLoader/></StyledAddAccountWrapper>}
-            {!list.favorites.length && !isLoading && !list.private.length ? <StyledAddAccountWrapper>
+            {isLoading && <StyledAddAccountWrapper><UiLoader /></StyledAddAccountWrapper>}
+            {!isLoading && !favorites.length && !socialUsers.length ? <StyledAddAccountWrapper>
                 No social Account added
-            </StyledAddAccountWrapper> : <>{!!list.favorites.length && (<>
+            </StyledAddAccountWrapper> : <>{!!favorites.length && (<>
                 <StyledDropdownSectionHeading>
                     <FavoriteYellowIcon />
-                    <StyledHeader>FAVORITES ({`${list.favorites.length}`})</StyledHeader>
+                    <StyledHeader>FAVORITES ({`${favorites.length}`})</StyledHeader>
                 </StyledDropdownSectionHeading>
                 <StyledDropdownSectionContentWrapper>
-                    {list.favorites.map((item, key) => (<StyledDropdownSectionContent key={key}>
+                    {favorites.map((item, key) => (<StyledDropdownSectionContent key={key}>
                         <UiCheckbox checked={!!selectedItems.find(selected => selected.id === item.id)} onChange={() => selectionHandler(item.id)} />
                         <SocialBadgeAvatar socialIcon={item.socialAccount} userAvatar={item.userAvatar} />
                         <StyledUserName>{item.userName}</StyledUserName>
@@ -151,21 +130,20 @@ const Dropdown = ({ list, selectedItems, favoriteHandler, selectionHandler,setDr
                             <UiCheckbox
                                 icon={<FavoriteUncheckedIcon />}
                                 checkedIcon={<FavoriteCheckIcon />}
-                                checked={!!list.favorites.find(selected => selected.id === item.id)}
+                                checked={!!favorites.find(selected => selected.id === item.id)}
                                 onChange={() => favoriteHandler(item.id)}
                             />
                         </StyledFavoriteCheckboxWrapper>
                     </StyledDropdownSectionContent>))}
-
                 </StyledDropdownSectionContentWrapper>
             </>)}
-                {!!list.private.length && (<>
+                {!!socialUsers.length && (<>
                     <StyledDropdownSectionHeading>
                         <PrivateUserIcon />
-                        <StyledHeader>PRIVATE ({`${list.private.length}`})</StyledHeader>
+                        <StyledHeader>PRIVATE ({`${socialUsers?.length || 0}`})</StyledHeader>
                     </StyledDropdownSectionHeading>
                     <StyledDropdownSectionContentWrapper>
-                        {list.private.map((item, key) => (<StyledDropdownSectionContent key={key}>
+                        {socialUsers.map((item, key) => (<StyledDropdownSectionContent key={key}>
                             <UiCheckbox
                                 checked={!!selectedItems.find(selected => selected.id === item.id)}
                                 onChange={() => selectionHandler(item.id)}
@@ -176,7 +154,7 @@ const Dropdown = ({ list, selectedItems, favoriteHandler, selectionHandler,setDr
                                 <UiCheckbox
                                     icon={<FavoriteUncheckedIcon />}
                                     checkedIcon={<FavoriteCheckIcon />}
-                                    checked={!!list.favorites.find(selected => selected.id === item.id)}
+                                    checked={!!favorites.find(selected => selected.id === item.id)}
                                     onChange={() => favoriteHandler(item.id)}
                                 />
                             </StyledFavoriteCheckboxWrapper>
@@ -187,35 +165,53 @@ const Dropdown = ({ list, selectedItems, favoriteHandler, selectionHandler,setDr
                 <StyledAddAccountText onClick={() => openUserInfoModal()}><PlusIcon /> Add a social account</StyledAddAccountText>
             </StyledAddAccountWrapper>
         </div>
-    </div>);
+    </div>
+    </ClickAwayListener>);
 
 };
 
 
 
-const SearchPublishDropdown = ({ listData, selectedUser }: { listData: IDropdownOptions; selectedUser: Array<IUserInfoDropdown> }) => {
+const SearchPublishDropdown = ({ favorites, selectedUser }: { favorites: Array<IUserInfoDropdown>; selectedUser: Array<IUserInfoDropdown> }) => {
     // state showing if dropdown is open or closed
     const [dropdown, setDropdown] = useState(false);
     const [inputValue, setInputValue] = useState('');
 
-    const { favoriteUserAction, socialUserSelectionAction } = useActions();
+    const { favoriteUserAction, socialUserSelectionAction,addUserContentAction } = useActions();
+    const { data: { socialUsers } = {}, isLoading } = useGetSocialUsersQuery();
+    const socialContentUsers = useAppSelector(state => state.createPostContent.initialValues.userContent);
+    const uploadedFiles = useAppSelector(state => state.createPostContent.initialValues.imageFiles);
+    const editorText = useAppSelector(state => state.createPostContent.initialValues.content);
 
     const favoriteHandler = (id: number) => {
-        const filteredItems = listData.favorites.filter((item) => item.id !== id)
-        if (filteredItems.length === listData.favorites.length) {
-            const item = listData.private.find((item) => item.id === id)
-            if (item) favoriteUserAction([...listData.favorites, item])
+        const filteredItems = favorites.filter((item) => item.id !== id)
+        if (filteredItems.length === favorites.length) {
+            const item = socialUsers?.find((item) => item.id === id);
+            if (item) favoriteUserAction([...favorites, item])
         } else favoriteUserAction(filteredItems);
     }
 
     const selectionHandler = (id: number) => {
 
         const filteredItems = selectedUser.filter((item) => item.id !== id)
+        const filteredSocialUsers = socialContentUsers.filter((item) => item.id !== id)
         if (filteredItems.length === selectedUser.length) {
-            const item = listData.private.find((item) => item.id === id)
-            if (item) socialUserSelectionAction([...selectedUser, item])
-        } else socialUserSelectionAction(filteredItems);
+            const item = socialUsers?.find((item) => item.id === id)
+            if (item){
+                socialUserSelectionAction([...selectedUser, item])
+                addUserContentAction([...socialContentUsers,{...item,content:editorText,imageFiles:uploadedFiles}])
+            } 
+        } else {
+            socialUserSelectionAction(filteredItems);
+            addUserContentAction(filteredSocialUsers)
+        }
     }
+
+    React.useEffect(() => {
+        if (socialUsers && socialUsers.length) setDropdown(true);
+
+    }, [socialUsers])
+
 
     return (
         <div className="w-full flex flex-col items-center mx-auto">
@@ -224,18 +220,17 @@ const SearchPublishDropdown = ({ listData, selectedUser }: { listData: IDropdown
                     <div className="w-full ">
                         <div className="my-2 p-1 h-12 flex border border-gray-200 bg-white rounded ">
                             <div className="flex flex-auto flex-wrap">
-                                {
-                                    selectedUser.map((tag, index) => {
-                                        return (
-                                            <div key={index} className="flex justify-center items-center m-1 font-medium py-1 px-2 bg-white rounded-full text-teal-700 bg-teal-100 border border-teal-300 ">
-                                                <div className="text-xs font-normal leading-none max-w-full flex-initial">{tag.userName}</div>
-                                                <div className="flex flex-auto flex-row-reverse w-5 cursor-pointer">
-                                                    <div onClick={() => selectionHandler(tag.id)}>
-                                                        <CloseIcon />
-                                                    </div>
+                                {selectedUser.map((tag, index) => {
+                                    return (
+                                        <div key={index} className="flex justify-center items-center m-1 font-medium py-1 px-2 bg-white rounded-full text-teal-700 bg-teal-100 border border-teal-300 ">
+                                            <div className="text-xs font-normal leading-none max-w-full flex-initial">{tag.userName}</div>
+                                            <div className="flex flex-auto flex-row-reverse w-5 cursor-pointer">
+                                                <div onClick={() => selectionHandler(tag.id)}>
+                                                    <CloseIcon />
                                                 </div>
-                                            </div>)
-                                    })
+                                            </div>
+                                        </div>)
+                                })
                                 }
                                 <div className="flex-1">
                                     <input
@@ -246,17 +241,19 @@ const SearchPublishDropdown = ({ listData, selectedUser }: { listData: IDropdown
                                     />
                                 </div>
                             </div>
-                            <div className="text-gray-300 w-8 py-1 pl-2 pr-1 border-l flex items-center border-gray-200" onClick={() => setDropdown((value) => !value)}>
+                            {!dropdown &&<div className="text-gray-300 w-8 py-1 pl-2 pr-1 border-l flex items-center border-gray-200" onClick={() => setDropdown((value) => !value)}>
                                 <button className="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
                                     {ArrowDown}
                                 </button>
-                            </div>
+                            </div>}
                         </div>
                     </div>
                 </div>
                 {dropdown ?
                     <Dropdown
-                        list={listData}
+                        isLoading={isLoading}
+                        favorites={favorites}
+                        socialUsers={socialUsers || []}
                         selectedItems={selectedUser}
                         favoriteHandler={favoriteHandler}
                         selectionHandler={selectionHandler}

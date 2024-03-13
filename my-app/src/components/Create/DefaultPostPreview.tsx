@@ -111,81 +111,53 @@ const StyledFooterItem = styled(Box)({
     justifyContent: "center",
     alignItems: "center",
     padding: "0px 8px"
-})
-const StyledFooterMessage = styled(Box)({
-    width: "400px",
-    fontSize: "14px",
-    textAlign: "center",
-    lineHeight: "18px",
-    color: "rgb(36, 31, 33)",
-    margin: "auto",
-    padding: "10px",
-    fontFamily: '"Source Sans Pro", "Helvetica Neue", Helvetica, Arial'
-})
-const StyledLink = styled('a')({
-    fontSize: "14px",
-    lineHeight: "18px",
-    color: "rgb(47, 107, 154)",
-    margin: "0",
-    padding: "0"
 });
 
 const StyledSubTitle = styled('p')({ fontSize: "14px", color: "rgb(93, 99, 102)", margin: "0px" })
 
-const LinkedInPostPreview = ({ selectedUser }: { selectedUser: Partial<IUserContentType> }) => {
+const DefaultPostPreview = ({ selectedUser }: { selectedUser: Partial<IUserContentType> }) => {
 
     const generateHtmlElement = hashtag(selectedUser?.content || '');
 
     return <Box>
         <StyledPreviewWrapper>
-            <StyledPreviewHeaderWrapper>
-                <LinkedInIcon />
-                <StyledTitleWrapper>LinkedIn</StyledTitleWrapper>
+            <StyledPreviewHeaderWrapper  aria-hidden="true" className="text-base text-neutral-700 dark:text-white">
             </StyledPreviewHeaderWrapper>
             <StyledContentWrapper>
                 <StyledContentHeader>
                     <div className='flex'>
-                        <div className='mr-3'>
-                            <Avatar {...stringAvatar(selectedUser?.userName || '')} />
+                        <div aria-hidden="true" className="mr-3 text-base text-neutral-700 dark:text-white">
+                          <Avatar /> 
                         </div>
-                        <div className='mr-3'>
-                            <StyledTitle>{selectedUser.userName}</StyledTitle>
-                            <StyledSubTitle>Just Now</StyledSubTitle>
+                        <div aria-hidden="true" className="mr-3 text-base text-neutral-700 dark:text-white">
                         </div>
                     </div>
-                    <DotIcon />
                 </StyledContentHeader>
                 <StyledContent>
                     {parse(generateHtmlElement)}
                 </StyledContent>
-                {!!selectedUser?.imageFiles?.length && <ImageList variant="masonry" cols={selectedUser.imageFiles.length} >
-                    {selectedUser.imageFiles.map((item, key) => (
-                        <StyledImagesContainer key={key}>
-                            <StyledImage src={item.imgFile} />
+                {!!selectedUser?.imageFiles?.length &&
+                        <StyledImagesContainer>
+                            <StyledImage src={selectedUser.imageFiles[0].imgFile} />
                         </StyledImagesContainer>
-                    ))}
-                </ImageList>}
+                }
                 <StyledContentFooter>
-                    <StyledFooterItem>
+                    <StyledFooterItem aria-hidden="true" className="text-base text-neutral-700 dark:text-white">
                         <LikeIcon />
                         Like
                     </StyledFooterItem>
-                    <StyledFooterItem>
+                    <StyledFooterItem aria-hidden="true" className="text-base text-neutral-700 dark:text-white">
                         <CommentIcon />
                         Comment
                     </StyledFooterItem>
-                    <StyledFooterItem>
+                    <StyledFooterItem aria-hidden="true" className="text-base text-neutral-700 dark:text-white">
                         <ShareIcon />
                         Share
                     </StyledFooterItem>
                 </StyledContentFooter>
             </StyledContentWrapper>
         </StyledPreviewWrapper>
-        <StyledFooterMessage>
-            Social networks regularly make updates to formatting, so your post may appear slightly different when published.
-            <StyledLink href="#">Learn More</StyledLink>
-        </StyledFooterMessage>
     </Box>
 }
 
-export default LinkedInPostPreview;
+export default DefaultPostPreview;
