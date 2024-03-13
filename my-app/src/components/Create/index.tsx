@@ -64,10 +64,6 @@ export default function CreatePost() {
     const isSocialLoginModalOpen = useAppSelector((state) => state.userInfoModal.isOpen);
     const selectedSocialUser = useAppSelector((state) => state.userInfoDropdown.socialUserSelected);
 
-    const [postContent,setPostContent] = React.useState({
-        content:'',uploadedFile:''
-    })
-
     return <Box className="flex flex-col flex-grow">
         <StyledHeader>New Post</StyledHeader>
         <StyledContent className="flex-grow">
