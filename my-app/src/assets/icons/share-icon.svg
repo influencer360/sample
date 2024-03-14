@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px" viewBox="0 0 20 20" version="1.1">
+    <!-- Generator: Sketch 53.1 (72631) - https://sketchapp.com -->
+    <title>LI-share</title>
+    <desc>Created with Sketch.</desc>
+    <g id="LI-share" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M5.00572746,15 C4.90438202,9.99823542 6.49948864,7.3880423 9.79104732,7.16942064 C9.92273737,7.16942064 10.6844411,7.1820209 12.0761585,7.20722141 L12.0761585,5 L16,9.01331087 L12.0761585,13.0055481 L12.0761585,10.6640785 C10.012273,10.6640785 8.89907201,10.6640785 8.73655567,10.6640785 C6.14799142,10.9297852 4.90438202,12.3750924 5.00572746,15 Z" id="Path-14" stroke="#666666" stroke-width="1.5"/>
+        <rect id="bound" stroke-opacity="0" stroke="#979797" x="0.5" y="0.5" width="19" height="19"/>
+    </g>
+</svg>
