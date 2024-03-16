@@ -7,8 +7,8 @@ import {useAppSelector } from "@/lib/hooks";
 import PostContent from "./PostContent";
 import CreatePostContent from "./CreatePost";
 import React from "react";
-import UiButtonDropdown from "../UiComponents/Dropdown/UiButtonDropdown";
 import PostScheduleModal from "../organisms/PostScheduleModal";
+import PostActionModal from "../organisms/PostActionModal";
 
 const StyledContent = styled('div')({
     display: "flex",
@@ -80,7 +80,7 @@ export default function CreatePost() {
         </StyledContent>
         <StyledPostFooterWrapper>
             <PostScheduleModal/>
-            <UiButtonDropdown/>
+            <PostActionModal/>
         </StyledPostFooterWrapper>
         {isSocialLoginModalOpen &&<SocialLoginModal/>}
     </Box>
