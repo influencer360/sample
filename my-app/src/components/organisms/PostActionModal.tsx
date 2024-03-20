@@ -1,16 +1,9 @@
 'use client';
-import { Alert, Box, Button, ClickAwayListener, Typography, styled } from '@mui/material';
+import { Box ,ClickAwayListener, styled } from '@mui/material';
 import React from 'react';
-import UiButton from '../UiComponents/Button/UiButton';
-import UiDatePicker from '../UiComponents/DateTimePicker/UIDatePicker';
-import { Moment } from 'moment';
-import moment from 'moment-timezone';
-import UiTimePicker from '../UiComponents/DateTimePicker/UiTimePicker';
-import { useActions, useAppSelector } from '@/lib/hooks';
 import SimpleButton from '../UiComponents/Button/SimpleButton';
-import IconButton from '../UiComponents/Button/IconButton';
-import CloseIcon from '@/assets/icons/close-icon.svg';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { useActions, useAppSelector } from '@/lib/hooks';
 
 
 const StyledWrapper = styled(Box)({ position: "relative", display: "inline-block" });
@@ -33,53 +26,77 @@ const StyledContentArea = styled(Box)({
     boxSizing: "border-box",
     margin: "2px",
     padding: "12px 0px"
-  });
+});
+
+const StyledListItem = styled(Box)({
+    backgroundColor: "rgb(252, 252, 251)",
+    color: "rgb(36, 31, 33)",
+    margin: "0px",
+    height: "40px",
+    lineHeight: "40px",
+    padding: "0px 28px",
+    fontSize: "16px",
+    fontWeight: 400,
+    userSelect: "none",
+    cursor: "pointer",
+    whiteSpace: "nowrap",
+    '&:hover':{ backgroundColor: "rgb(254, 238, 209)" }
+});
 
 
 
 const PostActionModal = () => {
 
     const [toggleDisplay, setDisplay] = React.useState(false);
-    const [dateTimeValue, setDateTimeValue] = React.useState<Moment>(moment.tz(moment(), "America/Los_Angeles").add(1, 'hours'));
-    const [timeValidationError, setTimeError] = React.useState<boolean>(false);
 
     const scheduledTime = useAppSelector((state) => state.createPostContent.initialValues.schedule)
     const socialContentUsers = useAppSelector(state => state.createPostContent.initialValues.userContent);
+    const selectedUsers = useAppSelector(state => state.userInfoDropdown.socialUserSelected);
 
-    const { schedulePostAction } = useActions();
+    const {setSelectedUserErrorMessage} = useActions();
 
-    const formatTime = (momentTime: string) => {
-        return moment(momentTime).format('LLLL');
-    }
+    
 
-    React.useEffect(() => {
-        if (timeValidationError) {
-            setTimeError(false)
-        }
-
-    }, [dateTimeValue]);
-
-    const handleSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        event.preventDefault();
-        schedulePostAction(dateTimeValue.format())
-        setDisplay(false);
-    }
-
-    const handleToggle = (event:React.MouseEvent<HTMLDivElement, MouseEvent>)=>{
+    const handleToggle = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         event.stopPropagation();
         setDisplay((value) => !value)
+    }
+
+    const handleSubmitAction = () => {
+        console.log('handleSubmitAction')
+        if(!selectedUsers.length){
+            setSelectedUserErrorMessage(true);
+        }
+    }
+
+    const handleDraftAction = () => {
+        console.log('handleDraftAction')
+        if(!selectedUsers.length){
+            setSelectedUserErrorMessage(true);
+        }
+
+    }
+
+    const handleDuplicateAction =()=>{
+
+        console.log('handleDuplicateAction')
+        if(!selectedUsers.length){
+            setSelectedUserErrorMessage(true);
+        }
+
     }
 
 
     return <ClickAwayListener onClickAway={() => setDisplay(false)}>
         <StyledWrapper>
-                <SimpleButton sx={{ position: "relative" }} >
-                    {scheduledTime.length?`Schedule ${socialContentUsers.length > 1 ? `(${socialContentUsers.length})` : ''}`:'Publish'}
-                    <Box className='ml-2 border-l border-black px-2 relative' onClick={handleToggle}><KeyboardArrowDownIcon /></Box>
-                </SimpleButton>
-                {toggleDisplay &&<StyledContentArea>
-                        <h2>Save Draft</h2>
-                    </StyledContentArea>}
+            <SimpleButton sx={{ position: "relative" }} onClick={() => handleSubmitAction()} >
+                {scheduledTime.length ? `Schedule ${socialContentUsers.length > 1 ? `(${socialContentUsers.length})` : ''}` : 'Publish'}
+                <Box className='ml-2 border-l border-black px-2 relative' onClick={handleToggle}><KeyboardArrowDownIcon /></Box>
+            </SimpleButton>
+            {toggleDisplay && <StyledContentArea>
+                <StyledListItem onClick={() => handleDraftAction()}>Save Draft</StyledListItem>
+                <StyledListItem onClick={() => handleDuplicateAction()}>{scheduledTime.length ? `Schedule ${socialContentUsers.length > 1 ? `(${socialContentUsers.length})` : ''} and duplicate` : 'Publish and duplicate'}</StyledListItem>
+            </StyledContentArea>}
         </StyledWrapper>
 
     </ClickAwayListener>
