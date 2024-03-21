@@ -56,7 +56,7 @@ const StyledTabHeader = styled(Box)({
     marginBottom: "3px"
 });
 
-const StyledTabItem = styled(Box)<{ activetab: boolean }>(({ activetab }) => ({
+const StyledTabItem = styled(Box)<{ activetab: number }>(({ activetab }) => ({
     minHeight: "45px",
     padding: "11px",
     display: "table-cell",
@@ -122,7 +122,6 @@ const CreateSocialPost = ({ socialUser, activeTab }: { socialUser: IUserContentT
                 </StyledCloseButtonWrapper>
             </StyledUploadedFileWrapper>)}
         </StyledFileUploadWrapper>
-
     </Box>
 }
 
@@ -159,13 +158,13 @@ const CreatePostContent = () => {
 
     return <Box className="w-full">{socialContentUsers.length ? <>
         <StyledTabHeader className="flex gap-2">
-            {socialContentUsers.map((item, key) => <StyledTabItem key={key} activetab={key === activeTab} onClick={() => handleTabChange(key)}>{item.socialAccount}</StyledTabItem>)}
+            {socialContentUsers.map((item, key) => <StyledTabItem key={key} activetab={key === activeTab?1:0} onClick={() => handleTabChange(key)}>{item.socialAccount}</StyledTabItem>)}
         </StyledTabHeader>
         <CreateSocialPost key={activeTab} socialUser={socialContentUsers[activeTab]} activeTab={activeTab} />
     </> :
         <>
             <StyledTabHeader className="flex gap-2">
-                <StyledTabItem activetab={true} >{'Initial Content'}</StyledTabItem>
+                <StyledTabItem activetab={1} >{'Initial Content'}</StyledTabItem>
             </StyledTabHeader>
             <UiTextEditor setEditorText={editorTextHandler} editorContent={''} />
             <StyledFileUploadWrapper>

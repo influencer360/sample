@@ -3,13 +3,8 @@ import styled from '@emotion/styled';
 import { Avatar, Box, ImageList } from '@mui/material';
 import React from 'react';
 import InstagramRedIcon from '@/assets/icons/instagram-red-icon.svg'
-import DotIcon from '@/assets/icons/dot-icon.svg';
 import { IUserContentType } from '@/utils/commonTypes';
-import { hashtag, stringAvatar } from '@/lib/utils';
-import { useAppSelector } from '@/lib/hooks';
-import LikeIcon from '@/assets/icons/like-icon.svg';
-import CommentIcon from '@/assets/icons/comment-icon.svg';
-import ShareIcon from '@/assets/icons/share-icon.svg';
+import { hashtag } from '@/lib/utils';
 import parse from 'html-react-parser';
 import Carousel from 'react-material-ui-carousel'
 

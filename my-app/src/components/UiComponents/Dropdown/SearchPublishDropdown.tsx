@@ -13,7 +13,7 @@ import { useActions, useAppSelector } from '@/lib/hooks';
 import { IUserInfoDropdown } from '@/utils/commonTypes';
 import { useGetSocialUsersQuery } from '@/lib/api/coreApi';
 import UiLoader from '../UiLoader';
-import { ClickAwayListener } from '@mui/material';
+import { Alert, AlertTitle, ClickAwayListener } from '@mui/material';
 
 const StyledUserName = styled('div')({
     color: "rgb(36, 31, 33)",
@@ -110,44 +110,20 @@ const Dropdown = ({ socialUsers, favorites, selectedItems, favoriteHandler, sele
     const { openUserInfoModal } = useActions();
 
 
-    return (<ClickAwayListener onClickAway={()=>setDropdown(false)}>
+    return (<ClickAwayListener onClickAway={() => setDropdown(false)}>
         <div id="dropdown" className="absolute shadow top-100 bg-white z-40 w-full lef-0 rounded max-h-select overflow-y-auto ">
-        <div className="flex flex-col w-full" style={{ border: '2px solid #000', borderRadius: '2px' }}>
-            {isLoading && <StyledAddAccountWrapper><UiLoader /></StyledAddAccountWrapper>}
-            {!isLoading && !favorites.length && !socialUsers.length ? <StyledAddAccountWrapper>
-                No social Account added
-            </StyledAddAccountWrapper> : <>{!!favorites.length && (<>
-                <StyledDropdownSectionHeading>
-                    <FavoriteYellowIcon />
-                    <StyledHeader>FAVORITES ({`${favorites.length}`})</StyledHeader>
-                </StyledDropdownSectionHeading>
-                <StyledDropdownSectionContentWrapper>
-                    {favorites.map((item, key) => (<StyledDropdownSectionContent key={key}>
-                        <UiCheckbox checked={!!selectedItems.find(selected => selected.id === item.id)} onChange={() => selectionHandler(item.id)} />
-                        <SocialBadgeAvatar socialIcon={item.socialAccount} userAvatar={item.userAvatar} />
-                        <StyledUserName>{item.userName}</StyledUserName>
-                        <StyledFavoriteCheckboxWrapper>
-                            <UiCheckbox
-                                icon={<FavoriteUncheckedIcon />}
-                                checkedIcon={<FavoriteCheckIcon />}
-                                checked={!!favorites.find(selected => selected.id === item.id)}
-                                onChange={() => favoriteHandler(item.id)}
-                            />
-                        </StyledFavoriteCheckboxWrapper>
-                    </StyledDropdownSectionContent>))}
-                </StyledDropdownSectionContentWrapper>
-            </>)}
-                {!!socialUsers.length && (<>
+            <div className="flex flex-col w-full" style={{ border: '2px solid #000', borderRadius: '2px' }}>
+                {isLoading && <StyledAddAccountWrapper><UiLoader /></StyledAddAccountWrapper>}
+                {!isLoading && !favorites.length && !socialUsers.length ? <StyledAddAccountWrapper>
+                    No social Account added
+                </StyledAddAccountWrapper> : <>{!!favorites.length && (<>
                     <StyledDropdownSectionHeading>
-                        <PrivateUserIcon />
-                        <StyledHeader>PRIVATE ({`${socialUsers?.length || 0}`})</StyledHeader>
+                        <FavoriteYellowIcon />
+                        <StyledHeader>FAVORITES ({`${favorites.length}`})</StyledHeader>
                     </StyledDropdownSectionHeading>
                     <StyledDropdownSectionContentWrapper>
-                        {socialUsers.map((item, key) => (<StyledDropdownSectionContent key={key}>
-                            <UiCheckbox
-                                checked={!!selectedItems.find(selected => selected.id === item.id)}
-                                onChange={() => selectionHandler(item.id)}
-                            />
+                        {favorites.map((item, key) => (<StyledDropdownSectionContent key={key}>
+                            <UiCheckbox checked={!!selectedItems.find(selected => selected.id === item.id)} onChange={() => selectionHandler(item.id)} />
                             <SocialBadgeAvatar socialIcon={item.socialAccount} userAvatar={item.userAvatar} />
                             <StyledUserName>{item.userName}</StyledUserName>
                             <StyledFavoriteCheckboxWrapper>
@@ -160,12 +136,36 @@ const Dropdown = ({ socialUsers, favorites, selectedItems, favoriteHandler, sele
                             </StyledFavoriteCheckboxWrapper>
                         </StyledDropdownSectionContent>))}
                     </StyledDropdownSectionContentWrapper>
-                </>)}</>}
-            <StyledAddAccountWrapper>
-                <StyledAddAccountText onClick={() => openUserInfoModal()}><PlusIcon /> Add a social account</StyledAddAccountText>
-            </StyledAddAccountWrapper>
+                </>)}
+                    {!!socialUsers.length && (<>
+                        <StyledDropdownSectionHeading>
+                            <PrivateUserIcon />
+                            <StyledHeader>PRIVATE ({`${socialUsers?.length || 0}`})</StyledHeader>
+                        </StyledDropdownSectionHeading>
+                        <StyledDropdownSectionContentWrapper>
+                            {socialUsers.map((item, key) => (<StyledDropdownSectionContent key={key}>
+                                <UiCheckbox
+                                    checked={!!selectedItems.find(selected => selected.id === item.id)}
+                                    onChange={() => selectionHandler(item.id)}
+                                />
+                                <SocialBadgeAvatar socialIcon={item.socialAccount} userAvatar={item.userAvatar} />
+                                <StyledUserName>{item.userName}</StyledUserName>
+                                <StyledFavoriteCheckboxWrapper>
+                                    <UiCheckbox
+                                        icon={<FavoriteUncheckedIcon />}
+                                        checkedIcon={<FavoriteCheckIcon />}
+                                        checked={!!favorites.find(selected => selected.id === item.id)}
+                                        onChange={() => favoriteHandler(item.id)}
+                                    />
+                                </StyledFavoriteCheckboxWrapper>
+                            </StyledDropdownSectionContent>))}
+                        </StyledDropdownSectionContentWrapper>
+                    </>)}</>}
+                <StyledAddAccountWrapper>
+                    <StyledAddAccountText onClick={() => openUserInfoModal()}><PlusIcon /> Add a social account</StyledAddAccountText>
+                </StyledAddAccountWrapper>
+            </div>
         </div>
-    </div>
     </ClickAwayListener>);
 
 };
@@ -177,11 +177,12 @@ const SearchPublishDropdown = ({ favorites, selectedUser }: { favorites: Array<I
     const [dropdown, setDropdown] = useState(false);
     const [inputValue, setInputValue] = useState('');
 
-    const { favoriteUserAction, socialUserSelectionAction,addUserContentAction } = useActions();
+    const { favoriteUserAction, socialUserSelectionAction, addUserContentAction,setSelectedUserErrorMessage } = useActions();
     const { data: { socialUsers } = {}, isLoading } = useGetSocialUsersQuery();
     const socialContentUsers = useAppSelector(state => state.createPostContent.initialValues.userContent);
     const uploadedFiles = useAppSelector(state => state.createPostContent.initialValues.imageFiles);
     const editorText = useAppSelector(state => state.createPostContent.initialValues.content);
+    const userErrorMessage = useAppSelector(state => state.userInfoDropdown.selectedUserErrorMessage)
 
     const favoriteHandler = (id: number) => {
         const filteredItems = favorites.filter((item) => item.id !== id)
@@ -197,14 +198,16 @@ const SearchPublishDropdown = ({ favorites, selectedUser }: { favorites: Array<I
         const filteredSocialUsers = socialContentUsers.filter((item) => item.id !== id)
         if (filteredItems.length === selectedUser.length) {
             const item = socialUsers?.find((item) => item.id === id)
-            if (item){
+            if (item) {
                 socialUserSelectionAction([...selectedUser, item])
-                addUserContentAction([...socialContentUsers,{...item,content:editorText,imageFiles:uploadedFiles}])
-            } 
+                addUserContentAction([...socialContentUsers, { ...item, content: editorText, imageFiles: uploadedFiles }])
+            }
         } else {
             socialUserSelectionAction(filteredItems);
             addUserContentAction(filteredSocialUsers)
         }
+        if(userErrorMessage) setSelectedUserErrorMessage(false);
+
     }
 
     React.useEffect(() => {
@@ -215,10 +218,10 @@ const SearchPublishDropdown = ({ favorites, selectedUser }: { favorites: Array<I
 
     return (
         <div className="w-full flex flex-col items-center mx-auto">
-            <div className="w-full relative">
+            <div className="w-full relative mb-5">
                 <div className="flex flex-col items-center">
-                    <div className="w-full ">
-                        <div className="my-2 p-1 h-12 flex border border-gray-200 bg-white rounded ">
+                    <div className='w-full'>
+                        <div className={`my-2 p-1 h-12 flex ${userErrorMessage?"border-2 border-rose-600":"border border-gray-200"} bg-white rounded`}>
                             <div className="flex flex-auto flex-wrap">
                                 {selectedUser.map((tag, index) => {
                                     return (
@@ -241,7 +244,7 @@ const SearchPublishDropdown = ({ favorites, selectedUser }: { favorites: Array<I
                                     />
                                 </div>
                             </div>
-                            {!dropdown &&<div className="text-gray-300 w-8 py-1 pl-2 pr-1 border-l flex items-center border-gray-200" onClick={() => setDropdown((value) => !value)}>
+                            {!dropdown && <div className="text-gray-300 w-8 py-1 pl-2 pr-1 border-l flex items-center border-gray-200" onClick={() => setDropdown((value) => !value)}>
                                 <button className="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
                                     {ArrowDown}
                                 </button>
@@ -249,6 +252,9 @@ const SearchPublishDropdown = ({ favorites, selectedUser }: { favorites: Array<I
                         </div>
                     </div>
                 </div>
+                {userErrorMessage && <Alert className='mt-2' variant="filled" severity="error"> 
+                <AlertTitle>Oops! You forgot to select a social account</AlertTitle>
+                Please choose one or more social accounts to publish to</Alert>}
                 {dropdown ?
                     <Dropdown
                         isLoading={isLoading}

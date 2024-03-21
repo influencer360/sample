@@ -71,8 +71,6 @@ const PostScheduleModal = () => {
 
     const {schedulePostAction} = useActions();
 
-    const modalEl = React.useRef<HTMLDivElement>(null);
-
     const formatTime = (momentTime:string)=>{
         return moment(momentTime).format('LLLL');
     }
@@ -82,36 +80,14 @@ const PostScheduleModal = () => {
             setTimeError(false)
         }
 
-    }, [dateTimeValue])
-
-    // React.useEffect(() => {
-    //     const handler = (ev: MouseEvent) => {
-    //       if (!modalEl.current) {
-    //         return;
-    //       }
-    //       // if click was not inside of the element. "!" means not
-    //       // in other words, if click is outside the modal element
-    //       if(modalEl?.current){
-
-    //         if (!modalEl.current?.contains(ev.target as Node)) {
-    //             setDisplay(false);
-    //         }
-    //       }
-    //     };
-    //     // the key is using the `true` option
-    //     // `true` will enable the `capture` phase of event handling by browser
-    //     document?.addEventListener("click", handler, true);
-    //     return () => {
-    //       document.removeEventListener("click", handler);
-    //     };
-    //   }, [setDisplay]);
+    }, [dateTimeValue]);
 
     const handleSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
         schedulePostAction(dateTimeValue.format())
         setDisplay(false);
     }
-    const handleClear =(event:React.MouseEvent<HTMLButtonElement, MouseEvent>)=>{
+    const handleClear =(event:React.MouseEvent<HTMLDivElement, MouseEvent>)=>{
         event.stopPropagation();
         schedulePostAction('')
 
@@ -123,10 +99,10 @@ const PostScheduleModal = () => {
         {scheduledTime.length?
         <SimpleButton sx={{ position: "relative" }}  onClick={() => setDisplay((value) => !value)} >
             {formatTime(scheduledTime)}
-            <IconButton className='ml-1' onClick={handleClear}><CloseIcon/></IconButton>
+            <Box className='ml-2 border border-black rounded-full p-2' onClick={handleClear}><CloseIcon/></Box>
         </SimpleButton>
         :<UiButton sx={{ position: "relative" }} label={"Schedule"} onClick={() => setDisplay((value) => !value)} />}
-        {toggleDisplay && <StyledContentWrapper ref={modalEl}>
+        {toggleDisplay && <StyledContentWrapper>
             <StyledContent>
                 <StyledContentHeading>Schedule post</StyledContentHeading>
                 <StyledContentArea>

@@ -4,11 +4,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface IUserInfoProps {
     favorites:Array<IUserInfoDropdown>;
     socialUserSelected:Array<IUserInfoDropdown>;
+    selectedUserErrorMessage:boolean
 }
 
 const initialState: IUserInfoProps = {
     favorites:[],
-    socialUserSelected:[]
+    socialUserSelected:[],
+    selectedUserErrorMessage:false
 };
 
 const userInfoSlice = createSlice({
@@ -20,6 +22,9 @@ const userInfoSlice = createSlice({
     },
     socialUserSelectionAction:(state,action: PayloadAction<Array<IUserInfoDropdown>>)=>{
         state.socialUserSelected = action.payload;
+    },
+    setSelectedUserErrorMessage:(state,action:PayloadAction<boolean>)=>{
+      state.selectedUserErrorMessage = action.payload;
     }
   },
 });
